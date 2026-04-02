@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TV 리모콘 시뮬레이터 (v86 - Standby & IoT Fix)</title>
+    <title>TV 리모콘 시뮬레이터 (v115 - Contents Highlight Fix)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.7.77/Tone.min.js"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -35,6 +35,7 @@
             overflow: hidden;
             width: 100%;
             aspect-ratio: 16 / 9;
+            container-type: inline-size;
         }
         #tv-video-player {
             object-fit: cover;
@@ -49,10 +50,10 @@
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
             color: white;
             border-radius: 9999px;
-            padding: 0.75rem 1.5rem;
+            padding: 1cqw 2cqw;
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 1.5cqw;
             transition: opacity 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
             opacity: 0;
         }
@@ -91,75 +92,86 @@
             box-sizing: border-box; animation: rotation 1s linear infinite;
         }
         @keyframes rotation { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        
         #gemini-recommendation-tray .gemini-item {
             flex-shrink: 0; position: relative;
-            width: calc(100% / 5.3 - 0.75rem); 
-            height: 8rem;
-            background-color: #1c1c1e; border-radius: 0.75rem; overflow: hidden;
-            cursor: pointer; transition: transform 0.2s cubic-bezier(0.25, 0.8, 0.25, 1), border-color 0.2s, box-shadow 0.2s;
-            border: 3px solid transparent; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            width: 18cqw; 
+            height: 12cqw;
+            background-color: #1c1c1e; border-radius: 1cqw; overflow: hidden;
+            cursor: pointer; transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), border-color 0.3s, box-shadow 0.3s;
+            border: 0.3cqw solid transparent; 
+            box-shadow: 0 0.5cqw 2cqw rgba(0,0,0,0.5);
             box-sizing: border-box;
+            scroll-margin: 2cqw;
         }
         #gemini-recommendation-tray .gemini-item.dpad-focused {
-            transform: none;
             border-color: #ffffff;
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
+            box-shadow: 0 0 2.5cqw rgba(255, 255, 255, 0.8);
+            transform: scale(1.05);
             z-index: 10;
         }
         #gemini-recommendation-tray .gemini-item video, #gemini-recommendation-tray .gemini-item img { width: 100%; height: 100%; object-fit: cover; }
         #gemini-recommendation-tray .gemini-item-info {
-            position: absolute; bottom: 0; left: 0; width: 100%; padding: 0.75rem;
+            position: absolute; bottom: 0; left: 0; width: 100%; padding: 1cqw;
             background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
             display: flex; flex-direction: column; justify-content: flex-end;
         }
-        #gemini-recommendation-tray .gemini-item-title { font-weight: 600; color: #fff; font-size: 0.85rem; line-height: 1.2; margin-bottom: 0.2rem; }
-        #gemini-recommendation-tray .gemini-item-channel { color: #d1d5db; font-size: 0.75rem; font-weight: 500; opacity: 0.8; }
-        #gemini-recommendation-tray .overflow-x-auto::-webkit-scrollbar { display: none; }
+        #gemini-recommendation-tray .gemini-item-title { font-weight: 600; color: #fff; font-size: 1.1cqw; line-height: 1.2; margin-bottom: 0.1cqw; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        #gemini-recommendation-tray .gemini-item-channel { color: #d1d5db; font-size: 0.9cqw; font-weight: 500; opacity: 0.8; }
+        
         #gemini-recommendation-tray .overflow-x-auto { 
             -ms-overflow-style: none; scrollbar-width: none; 
-            mask-image: linear-gradient(to right, black 90%, transparent 100%);
-            -webkit-mask-image: linear-gradient(to right, black 90%, transparent 100%);
-            padding-right: 2rem;
+            mask-image: linear-gradient(to right, black 95%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to right, black 95%, transparent 100%);
+            scroll-behavior: smooth;
         }
+        #gemini-recommendation-tray .overflow-x-auto::-webkit-scrollbar { display: none; }
+
         #home-iot-overlay {
             background-color: rgba(30, 30, 35, 0.4);
             border: 1px solid rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(30px);
             -webkit-backdrop-filter: blur(30px);
-            border-radius: 1.5rem;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            border-radius: 2cqw;
+            box-shadow: 0 2cqw 5cqw rgba(0,0,0,0.5);
             transition: opacity 0.3s; 
             pointer-events: auto;
         }
         .room-division {
-            position: absolute; border: 1px solid rgba(255, 255, 255, 0.3);
+            position: absolute; border: 0.1cqw solid rgba(255, 255, 255, 0.3);
             background-color: rgba(255, 255, 255, 0.03);
             display: flex; align-items: center; justify-content: center;
         }
-        .room-label { font-size: 0.6rem; color: rgba(255,255,255,0.7); font-weight: 600; letter-spacing: 0.05em; }
+        .room-label { font-size: 0.8cqw; color: rgba(255,255,255,0.7); font-weight: 600; letter-spacing: 0.05em; }
         .iot-item {
             position: absolute; transform: translate(-50%, -50%); transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-            display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.3); z-index: 50;
+            display: flex; align-items: center; justify-content: center; box-shadow: 0 0.5cqw 1cqw rgba(0,0,0,0.3); z-index: 50;
             cursor: pointer; 
+            width: 3.5cqw; height: 3.5cqw; border-radius: 50%;
+            background: #27272a; color: #a1a1aa;
         }
         .iot-item.focused { 
-            border: 3px solid #f97316;
-            box-shadow: 0 0 15px rgba(249, 115, 22, 0.6); 
-            transform: translate(-50%, -50%) scale(1.2); 
+            border: 0.3cqw solid #f97316;
+            box-shadow: 0 0 1.5cqw rgba(249, 115, 22, 0.6); 
+            transform: translate(-50%, -50%) scale(1.25); 
             z-index: 60; 
         }
         .iot-item.on {
             background: #fcd34d !important; color: #451a03 !important;
-            box-shadow: 0 0 25px rgba(252, 211, 77, 0.6) !important; transform: translate(-50%, -50%) scale(1.15) !important; z-index: 70;
+            box-shadow: 0 0 2.5cqw rgba(252, 211, 77, 0.6) !important; z-index: 70;
         }
-        .light-bulb { width: 28px; height: 28px; border-radius: 50%; background: #3f3f46; color: #a1a1aa; }
-        .vacuum-cleaner { width: 32px; height: 32px; border-radius: 50%; background: #3f3f46; color: #a1a1aa; }
-        .audio-system { width: 32px; height: 32px; border-radius: 0.75rem; background: #3f3f46; color: #a1a1aa; }
+        .iot-item i, .iot-item svg { width: 1.8cqw; height: 1.8cqw; }
+        .audio-system { border-radius: 0.8cqw; }
+        
         @keyframes vacuum-move {
-            0% { left: 40%; bottom: 10%; } 25% { left: 55%; bottom: 40%; } 50% { left: 65%; bottom: 80%; } 75% { left: 45%; bottom: 50%; } 100% { left: 40%; bottom: 10%; }
+            0% { left: 40%; top: 40%; }
+            25% { left: 65%; top: 20%; }
+            50% { left: 55%; top: 70%; }
+            75% { left: 45%; top: 30%; }
+            100% { left: 40%; top: 40%; }
         }
-        .vacuum-cleaning { animation: vacuum-move 12s linear infinite; }
+        .vacuum-cleaning { animation: vacuum-move 12s linear infinite !important; }
+        
         .remote-btn-style {
             background-color: #27272a;
             border: 1px solid #3f3f46;
@@ -170,12 +182,13 @@
             cursor: pointer;
         }
         .remote-btn-style:active { background-color: #3f3f46; transform: scale(0.95); }
+        
         #standby-overlay-content {
             transform: scale(0.4); 
             transform-origin: top right; 
             position: absolute;
-            top: 4rem;   
-            right: 4rem; 
+            top: 4cqw;   
+            right: 4cqw; 
         }
         #standby-overlay { 
             background-color: black; 
@@ -186,6 +199,7 @@
         }
         .video-hidden { opacity: 0 !important; }
         .font-sf-display { font-family: -apple-system, BlinkMacSystemFont, sans-serif; font-weight: 200; letter-spacing: -0.02em; }
+        
         #music-app-overlay {
             transition: opacity 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
             opacity: 0;
@@ -199,9 +213,6 @@
             opacity: 1;
             transform: translateY(-50%) scale(0.55);
         }
-        #music-app-overlay.dimmed {
-            opacity: 0.1; 
-        }
         .custom-scrollbar::-webkit-scrollbar { width: 0px; }
         .music-channel-item.active {
             background-color: rgba(255, 255, 255, 0.15);
@@ -211,13 +222,14 @@
 </head>
 <body class="bg-neutral-900 min-h-screen flex flex-col items-center justify-center p-6 text-white select-none">
 
+    <!-- TV Frame -->
     <div class="w-full max-w-4xl bg-[#111] border-8 border-[#222] rounded-[2rem] shadow-2xl mb-10 overflow-hidden relative ring-1 ring-white/10">
-        <div id="tv-screen" class="w-full aspect-video relative flex items-center justify-center text-4xl font-bold text-gray-600 transition-all duration-300">
-            <div id="power-off-message" class="z-30 font-light tracking-widest"></div>
+        <div id="tv-screen" class="w-full aspect-video relative flex items-center justify-center text-gray-600 transition-all duration-300">
+            <div id="power-off-message" class="z-30 font-light tracking-widest text-[4cqw]"></div>
             <video id="tv-video-player" class="absolute top-0 left-0 w-full h-full z-10 hidden" playsinline loop></video>
             
             <div id="music-bg-effect" class="absolute inset-0 z-15 hidden transition-all duration-700">
-                <img id="music-bg-img-full" src="" onerror="this.onerror=null; this.src='https://placehold.co/400x225/111/ffffff?text=Loading';" class="w-full h-full object-cover opacity-30 blur-3xl scale-110 transition-all duration-1000">
+                <img id="music-bg-img-full" src="" onerror="this.onerror=null; this.src='https://placehold.co/400x225/111/ffffff?text=Loading';" class="w-full h-full object-cover opacity-30 blur-3xl scale-110 duration-1000">
                 <div class="absolute inset-0 bg-black/50"></div>
                 <div id="music-bg-gradient-full" class="absolute inset-0 transition-all duration-1000"></div>
             </div>
@@ -256,84 +268,72 @@
                         </div>
                     </div>
                     <div class="flex-1 bg-white/5 backdrop-blur-xl border-t border-white/5 p-4 overflow-hidden flex flex-col rounded-t-[2rem] shadow-[0_-10px_40px_rgba(0,0,0,0.2)]">
-                        <div class="flex justify-between items-center mb-3 px-1">
-                            <h3 class="text-xs font-bold text-white/40 uppercase tracking-widest">Stations</h3>
-                            <div class="flex items-center gap-2">
-                                <i data-lucide="volume-2" width="14" height="14" class="text-white/30"></i>
-                                <div class="w-16 h-1 bg-white/20 rounded-full overflow-hidden">
-                                    <div id="music-vol-bar" class="h-full bg-white/80 w-[70%]"></div>
-                                </div>
-                                <span id="music-vol-text" class="text-[10px] text-white/30 w-4 text-right">70</span>
-                            </div>
-                        </div>
                         <div id="music-channel-list" class="flex flex-col gap-1 flex-1 overflow-y-auto custom-scrollbar pb-2"></div>
                     </div>
                 </div>
             </div>
             
-            <div id="standby-overlay" class="absolute top-0 left-0 w-full h-full hidden flex flex-col justify-start items-end p-12"> 
+            <!-- Standby Overlay -->
+            <div id="standby-overlay" class="absolute top-0 left-0 w-full h-full hidden flex flex-col justify-start items-end p-8"> 
                 <div id="standby-overlay-content" class="flex flex-col items-end text-right">
-                    <div id="standby-time" class="text-[180px] font-sf-display text-white/90 drop-shadow-2xl leading-none text-right">12:00</div>
-                    <div class="flex flex-row items-center justify-end gap-8 mt-4">
-                        <div id="standby-date" class="text-5xl font-light tracking-wide text-white/60 uppercase">MON, JAN 1</div>
-                        <div class="flex items-center gap-4 text-5xl font-light text-cyan-400 drop-shadow-md">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-cyan-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                    <div id="standby-time" class="text-[20cqw] font-sf-display text-white/90 drop-shadow-2xl leading-none text-right">12:00</div>
+                    <div class="flex flex-row items-center justify-end gap-[4cqw] mt-[2cqw]">
+                        <div id="standby-date" class="text-[5cqw] font-light tracking-wide text-white/60 uppercase">MON, JAN 1</div>
+                        <div class="flex items-center gap-[1cqw] text-[5cqw] font-light text-cyan-400 drop-shadow-md">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-[5cqw] w-[5cqw] text-cyan-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
                             <span class="text-yellow-400 font-medium">24°</span>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div id="gemini-recommendation-tray" class="absolute bottom-0 left-0 w-full z-30 hidden p-6 bg-gradient-to-t from-black/80 via-black/40 to-transparent">
-                <div class="flex overflow-x-auto gap-3 pb-2 items-end px-2"></div>
+            <!-- Gemini Tray (Fix: pt-[2cqw] added to inner flex for highlight room) -->
+            <div id="gemini-recommendation-tray" class="absolute bottom-0 left-0 w-full z-30 hidden p-[2cqw] bg-gradient-to-t from-black/80 via-black/40 to-transparent">
+                <div class="flex overflow-x-auto gap-[1.5cqw] pt-[2cqw] pb-[2cqw] items-end px-[1cqw]"></div>
             </div>
 
+            <!-- OSD Layer -->
             <div id="tv-ui-overlay" class="absolute top-0 left-0 w-full h-full z-20 hidden pointer-events-none">
-                <div class="relative w-full h-full p-12">
-                    <div id="osd-channel-bar" class="osd-container absolute top-12 left-12">
-                        <div class="flex flex-col items-start">
-                            <div class="flex items-center gap-2 text-white/60 text-xs font-bold tracking-wider uppercase">Channel</div>
-                            <div class="flex items-baseline gap-3">
-                                <span id="osd-channel-num" class="text-4xl font-light tracking-tighter">1</span>
-                                <span id="osd-channel-name" class="text-xl font-medium text-white/90 truncate max-w-[200px]">Tears of Steel</span>
-                            </div>
+                <div class="relative w-full h-full p-[4cqw]">
+                    <div id="osd-channel-bar" class="osd-container absolute top-[4cqw] left-[4cqw]">
+                        <div class="flex items-baseline gap-[1cqw]">
+                            <span id="osd-channel-num" class="text-[4cqw] font-light tracking-tighter">1</span>
+                            <span id="osd-channel-name" class="text-[2.2cqw] font-medium text-white/90 truncate max-w-[25cqw]">Channel Name</span>
                         </div>
                     </div>
-                    <div id="osd-volume-bar" class="osd-container absolute top-12 right-12">
-                        <div class="flex items-center gap-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white/80" id="osd-volume-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072M12 11c.083-.5.5-1 1.05-.5C13.5 10.5 14 11.5 14 12c0 .5-.5 1.5-1 1.5-.55.5-1-.5-1-1v-.01zM12 11c0-.01 0 0 0 0z" /><path d="M12 3v1m0 16v1m8.66-15.66l-.7.7M4.04 19.96l-.7.7M21 12h-1M4 12H3m16.66-7.96l-.7-.7M4.04 4.04l-.7-.7" /></svg>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-400 hidden" id="osd-mute-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707A1 1 0 0112 5.086v13.828a1 1 0 01-1.707.707L5.586 15zM17 14l4-4m0 4l-4-4" /></svg>
-                            <div class="flex flex-col">
-                                <span class="text-[0.65rem] font-bold text-white/60 uppercase tracking-wider">Volume</span>
-                                <span id="osd-volume-text" class="text-xl font-semibold">10</span>
-                            </div>
+                    <div id="osd-volume-bar" class="osd-container absolute top-[4cqw] right-[4cqw]">
+                        <div class="flex items-center gap-[1cqw]">
+                            <i id="osd-vol-icon" data-lucide="volume-2" style="width: 2.5cqw; height: 2.5cqw;" class="text-white/80"></i>
+                            <i id="osd-mute-icon" data-lucide="volume-x" style="width: 2.5cqw; height: 2.5cqw;" class="text-red-400 hidden"></i>
+                            <span id="osd-volume-text" class="text-[2.2cqw] font-semibold">10</span>
                         </div>
                     </div>
                 </div>
             </div>
             
-            <div id="home-iot-overlay" class="absolute top-12 right-12 w-80 h-60 rounded-[1.5rem] z-40 hidden p-4 pt-3 pb-4 transition-opacity duration-300">
-                <div class="text-[0.7rem] text-white/50 mb-1 font-bold text-center uppercase tracking-[0.2em]">My Smart Home</div>
-                <div class="relative w-full h-44 mt-[-10px]">
-                    <div class="room-division" style="top: 0; left: 0; width: 35%; height: 40%; border-top-left-radius: 0.5rem;"><span class="room-label">BEDROOM</span></div>
-                    <div class="room-division" style="bottom: 0; left: 0; width: 35%; height: 40%; border-bottom-left-radius: 0.5rem;"><span class="room-label">STUDY</span></div>
+            <!-- Home IoT Overlay -->
+            <div id="home-iot-overlay" class="absolute top-12 right-12 w-[35cqw] h-[26cqw] z-40 hidden p-[1.5cqw] pt-[1cqw] transition-opacity duration-300">
+                <div class="text-[1cqw] text-white/50 mb-[0.5cqw] font-bold text-center uppercase tracking-[0.2em]">My Smart Home</div>
+                <div class="relative w-full h-[20cqw]">
+                    <div class="room-division" style="top: 0; left: 0; width: 35%; height: 40%; border-top-left-radius: 0.5cqw;"><span class="room-label">BEDROOM</span></div>
+                    <div class="room-division" style="bottom: 0; left: 0; width: 35%; height: 40%; border-bottom-left-radius: 0.5cqw;"><span class="room-label">STUDY</span></div>
                     <div class="room-division" style="top: 0; left: 35%; width: 40%; height: 100%;"><span class="room-label">LIVING</span></div>
-                    <div class="room-division" style="top: 0; right: 0; width: 25%; height: 40%; border-top-right-radius: 0.5rem;"><span class="room-label">KITCHEN</span></div>
+                    <div class="room-division" style="top: 0; right: 0; width: 25%; height: 40%; border-top-right-radius: 0.5cqw;"><span class="room-label">KITCHEN</span></div>
                     <div class="room-division" style="bottom: 0; right: 0; width: 25%; height: 40%; border-bottom-right-radius: 0.5rem;"><span class="room-label">BATH</span></div>
-                    <div style="position:absolute; left:35%; top:40%; width:40%; height:20%;"></div>
-                    <div id="iot-0" class="iot-item audio-system" style="top: 10%; left: 10%;"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM14.657 2.929a1 1 0 011.414 0A9.972 9.972 0 0119 10a9.972 9.972 0 01-2.929 7.071 1 1 0 01-1.414-1.414A7.971 7.971 0 0017 10c0-2.21-.894-4.208-2.343-5.657a1 1 0 010-1.414zm-2.829 2.828a1 1 0 011.415 0A5.983 5.983 0 0115 10a5.984 5.984 0 01-1.757 4.243 1 1 0 01-1.415-1.415A3.984 3.984 0 0013 10a3.983 3.983 0 00-1.172-2.828 1 1 0 010-1.414z" clip-rule="evenodd" /></svg></div>
-                    <div id="iot-1" class="iot-item light-bulb" style="top: 32%; left: 17.5%;"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path d="M11 3a1 1 0 10-2 0v1a1 1 0 102 0V3zM15.657 5.757a1 1 0 00-1.414-1.414l-.707.707a1 1 0 001.414 1.414l.707-.707zM18 10a1 1 0 01-1 1h-1a1 1 0 110-2h1a1 1 0 011 1zM5.05 6.464A1 1 0 106.464 5.05l-.707-.707a1 1 0 00-1.414 1.414l.707.707zM5 10a1 1 0 01-1 1H3a1 1 0 110-2h1a1 1 0 011 1zM8 16v-1h4v1a2 2 0 11-4 0zM12 14c.015-.34.208-.646.477-.859a4 4 0 10-4.954 0c.27.213.462.519.476.859h4.002z" /></svg></div>
-                    <div id="iot-2" class="iot-item light-bulb" style="top: 20%; right: 12.5%;"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path d="M11 3a1 1 0 10-2 0v1a1 1 0 102 0V3zM15.657 5.757a1 1 0 00-1.414-1.414l-.707.707a1 1 0 001.414 1.414l.707-.707zM18 10a1 1 0 01-1 1h-1a1 1 0 110-2h1a1 1 0 011 1zM5.05 6.464A1 1 0 106.464 5.05l-.707-.707a1 1 0 00-1.414 1.414l.707.707zM5 10a1 1 0 01-1 1H3a1 1 0 110-2h1a1 1 0 011 1zM8 16v-1h4v1a2 2 0 11-4 0zM12 14c.015-.34.208-.646.477-.859a4 4 0 10-4.954 0c.27.213.462.519.476.859h4.002z" /></svg></div>
-                    <div id="iot-3" class="iot-item light-bulb" style="top: 50%; left: 55%;"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path d="M11 3a1 1 0 10-2 0v1a1 1 0 102 0V3zM15.657 5.757a1 1 0 00-1.414-1.414l-.707.707a1 1 0 001.414 1.414l.707-.707zM18 10a1 1 0 01-1 1h-1a1 1 0 110-2h1a1 1 0 011 1zM5.05 6.464A1 1 0 106.464 5.05l-.707-.707a1 1 0 00-1.414 1.414l.707.707zM5 10a1 1 0 01-1 1H3a1 1 0 110-2h1a1 1 0 011 1zM8 16v-1h4v1a2 2 0 11-4 0zM12 14c.015-.34.208-.646.477-.859a4 4 0 10-4.954 0c.27.213.462.519.476.859h4.002z" /></svg></div>
-                    <div id="iot-4" class="iot-item light-bulb" style="bottom: 20%; right: 12.5%;"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path d="M11 3a1 1 0 10-2 0v1a1 1 0 102 0V3zM15.657 5.757a1 1 0 00-1.414-1.414l-.707.707a1 1 0 001.414 1.414l.707-.707zM18 10a1 1 0 01-1 1h-1a1 1 0 110-2h1a1 1 0 011 1zM5.05 6.464A1 1 0 106.464 5.05l-.707-.707a1 1 0 00-1.414 1.414l.707.707zM5 10a1 1 0 01-1 1H3a1 1 0 110-2h1a1 1 0 011 1zM8 16v-1h4v1a2 2 0 11-4 0zM12 14c.015-.34.208-.646.477-.859a4 4 0 10-4.954 0c.27.213.462.519.476.859h4.002z" /></svg></div>
-                    <div id="iot-5" class="iot-item light-bulb" style="bottom: 20%; left: 17.5%;"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path d="M11 3a1 1 0 10-2 0v1a1 1 0 102 0V3zM15.657 5.757a1 1 0 00-1.414-1.414l-.707.707a1 1 0 001.414 1.414l.707-.707zM18 10a1 1 0 01-1 1h-1a1 1 0 110-2h1a1 1 0 011 1zM5.05 6.464A1 1 0 106.464 5.05l-.707-.707a1 1 0 00-1.414 1.414l.707.707zM5 10a1 1 0 01-1 1H3a1 1 0 110-2h1a1 1 0 011 1zM8 16v-1h4v1a2 2 0 11-4 0zM12 14c.015-.34.208-.646.477-.859a4 4 0 10-4.954 0c.27.213.462.519.476.859h4.002z" /></svg></div>
-                    <div id="iot-6" class="iot-item vacuum-cleaner" style="bottom: 10%; left: 40%;"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path d="M13 7H7v6h6V7z" /><path fill-rule="evenodd" d="M7 2a1 1 0 012 0v1h2V2a1 1 0 112 0v1h2a2 2 0 012 2v2h1a1 1 0 110 2h-1v2h1a1 1 0 110 2h-1v2a2 2 0 01-2 2h-2v1a1 1 0 11-2 0v-1H9v1a1 1 0 11-2 0v-1H5a2 2 0 01-2-2v-2H2a1 1 0 110-2h1V9H2a1 1 0 010-2h1V5a2 2 0 012-2h2V2zM5 5h10v10H5V5z" clip-rule="evenodd" /></svg></div>
-                    <div id="iot-7" class="iot-item light-bulb" style="bottom: 10%; left: 60%;"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path d="M11 3a1 1 0 10-2 0v1a1 1 0 102 0V3zM15.657 5.757a1 1 0 00-1.414-1.414l-.707.707a1 1 0 001.414 1.414l.707-.707zM18 10a1 1 0 01-1 1h-1a1 1 0 110-2h1a1 1 0 011 1zM5.05 6.464A1 1 0 106.464 5.05l-.707-.707a1 1 0 00-1.414 1.414l.707.707zM5 10a1 1 0 01-1 1H3a1 1 0 110-2h1a1 1 0 011 1zM8 16v-1h4v1a2 2 0 11-4 0zM12 14c.015-.34.208-.646.477-.859a4 4 0 10-4.954 0c.27.213.462.519.476.859h4.002z" /></svg></div>
+                    <div id="iot-0" class="iot-item audio-system" style="top: 10%; left: 10%;"><i data-lucide="music"></i></div>
+                    <div id="iot-1" class="iot-item light-bulb" style="top: 32%; left: 17.5%;"><i data-lucide="lightbulb"></i></div>
+                    <div id="iot-2" class="iot-item light-bulb" style="top: 20%; right: 12.5%;"><i data-lucide="lightbulb"></i></div>
+                    <div id="iot-3" class="iot-item light-bulb" style="top: 50%; left: 55%;"><i data-lucide="lightbulb"></i></div>
+                    <div id="iot-4" class="iot-item light-bulb" style="bottom: 20%; right: 12.5%;"><i data-lucide="lightbulb"></i></div>
+                    <div id="iot-5" class="iot-item light-bulb" style="bottom: 20%; left: 17.5%;"><i data-lucide="lightbulb"></i></div>
+                    <div id="iot-6" class="iot-item vacuum-cleaner" style="bottom: 10%; left: 40%;"><i data-lucide="wind"></i></div>
+                    <div id="iot-7" class="iot-item light-bulb" style="bottom: 10%; left: 60%;"><i data-lucide="lightbulb"></i></div>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Remote Layout -->
     <div class="w-full max-w-xs bg-black rounded-[2.5rem] p-6 shadow-2xl border border-zinc-800" style="transform: scale(0.5); transform-origin: top center;">
         <div class="flex flex-col gap-6">
             <div class="flex gap-4">
@@ -363,20 +363,19 @@
             </div>
             <div class="d-pad-container mx-auto mt-4">
                 <div></div>
-                <button id="d-pad-up" class="d-pad-button"><svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 15l7-7 7 7" /></svg></button>
+                <button id="d-pad-up" class="d-pad-button"><i data-lucide="chevron-up"></i></button>
                 <div></div>
-                <button id="d-pad-left" class="d-pad-button"><svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7" /></svg></button>
+                <button id="d-pad-left" class="d-pad-button"><i data-lucide="chevron-left"></i></button>
                 <button id="d-pad-ok" class="d-pad-button text-2xl">OK</button>
-                <button id="d-pad-right" class="d-pad-button"><svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" /></svg></button>
+                <button id="d-pad-right" class="d-pad-button"><i data-lucide="chevron-right"></i></button>
                 <div></div>
-                <button id="d-pad-down" class="d-pad-button"><svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7" /></svg></button>
+                <button id="d-pad-down" class="d-pad-button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg></button>
                 <div></div>
             </div>
         </div>
     </div>
 
     <script>
-    // --- Global Constants & Data ---
     const SCALES = { dream: [0, 4, 7, 11, 14], jazz: [0, 3, 7, 10, 14], folk: [0, 2, 4, 7, 9], mystic: [0, 2, 4, 6, 9], deep: [0, 5, 7, 12] };
     const musicChannels = [
         { id: 1, title: "Sunset Drive", artist: "Dreamy Synthwave", imageUrl: "https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?q=80&w=800&auto=format&fit=crop", color: "from-purple-500/80 to-pink-600/80", bgGradient: "bg-gradient-to-b from-indigo-900 via-purple-900 to-black", baseFreq: 261.63, scale: 'dream', style: 'synth_pop', bpm: 100, ambience: 'city' },
@@ -385,55 +384,56 @@
         { id: 4, title: "Secret Garden", artist: "Harp & Nature", imageUrl: "https://images.unsplash.com/photo-1518173946687-a4c8892bbd9f?q=80&w=800&auto=format&fit=crop", color: "from-emerald-600/80 to-teal-700/80", bgGradient: "bg-gradient-to-b from-green-900 via-emerald-950 to-black", baseFreq: 329.63, scale: 'mystic', style: 'fantasy_chimes', bpm: 0, ambience: 'nature' },
         { id: 5, title: "Deep Sleep", artist: "Ocean Strings", imageUrl: "https://images.unsplash.com/photo-1551244072-5d12893278ab?q=80&w=800&auto=format&fit=crop", color: "from-blue-800/80 to-indigo-900/80", bgGradient: "bg-gradient-to-b from-blue-950 via-indigo-950 to-black", baseFreq: 98.00, scale: 'deep', style: 'drone_pad', bpm: 0, ambience: 'ocean' }
     ];
-    
-    // Secure HTTPS URLs from Google TV Sample Videos
+
     const channelData = [
-        { title: "Tears of Steel", url: "https://storage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4" },
-        { title: "Sintel", url: "https://storage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4" },
-        { title: "Big Buck Bunny", url: "https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" },
-        { title: "Elephants Dream", url: "https://storage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4" },
-        { title: "For Bigger Escapes", url: "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4" }, // Replaced Volkswagen GTI
-        { title: "For Bigger Joyrides", url: "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4" },
-        { title: "For Bigger Fun", url: "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4" }, // Replaced Car Review
-        { title: "Subaru Outback", url: "https://storage.googleapis.com/gtv-videos-bucket/sample/SubaruOutbackOnStreetAndDirt.mp4" },
-        { title: "Tears of Steel", url: "https://storage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4" },
-        { title: "Big Buck Bunny", url: "https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" },
-        { title: "Sintel", url: "https://storage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4" },
-        { title: "Elephants Dream", url: "https://storage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4" },
-        { title: "For Bigger Blazes", url: "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" }, // Replaced Volkswagen GTI
-        { title: "For Bigger Escapes", url: "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4" },
-        { title: "Big Buck Bunny", url: "https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" },
-        { title: "Elephants Dream", url: "https://storage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4" },
-        { title: "For Bigger Blazes", url: "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" },
-        { title: "For Bigger Escapes", url: "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4" },
-        { title: "For Bigger Fun", url: "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4" },
-        { title: "For Bigger Joyrides", url: "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4" },
-        { title: "For Bigger Meltdowns", url: "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4" },
-        { title: "Tears of Steel", url: "https://storage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4" },
-        { title: "Subaru Outback", url: "https://storage.googleapis.com/gtv-videos-bucket/sample/SubaruOutbackOnStreetAndDirt.mp4" },
-        { title: "Tears of Steel", url: "https://storage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4" },
-        { title: "For Bigger Escapes", url: "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4" }, // Replaced Volkswagen GTI
-        { title: "Sintel", url: "https://storage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4" },
-        { title: "Big Buck Bunny", url: "https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" },
-        { title: "Elephants Dream", url: "https://storage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4" },
-        { title: "For Bigger Blazes", url: "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" },
-        { title: "For Bigger Escapes", url: "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4" },
-        { title: "For Bigger Fun", url: "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4" }
+        { title: "Sintel Trailer", url: "https://media.w3.org/2010/05/sintel/trailer.mp4" },
+        { title: "MLB Highlights", url: "https://res.cloudinary.com/demo/video/upload/MLB_Vid.mp4" },
+        { title: "Coastal Drone Flight", url: "https://res.cloudinary.com/demo/video/upload/glide-over-coastal-beach.mp4" },
+        { title: "Ski Jump", url: "https://res.cloudinary.com/demo/video/upload/ski_jump.mp4" },
+        { title: "Big Buck Bunny", url: "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/720/Big_Buck_Bunny_720_10s_1MB.mp4" },
+        { title: "Elephants Dream", url: "https://archive.org/download/ElephantsDream/ed_1024_512kb.mp4" },
+        { title: "Friday Life", url: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/friday.mp4" },
+        { title: "Sintel Adventure", url: "https://media.w3.org/2010/05/sintel/trailer.mp4" },
+        { title: "Jellyfish Nature", url: "https://test-videos.co.uk/vids/jellyfish/mp4/h264/1080/Jellyfish_1080_10s_5MB.mp4" },
+        { title: "Baseball Best", url: "https://res.cloudinary.com/demo/video/upload/MLB_Vid.mp4" }
     ];
 
-    const videoChannelMap = []; 
-    for (let i = 0; i <= 30; i++) { videoChannelMap.push(channelData[(i - 1) % channelData.length]); }
+    const videoChannelMap = [null]; 
+    for (let i = 1; i <= 30; i++) { videoChannelMap[i] = channelData[(i - 1) % channelData.length]; }
+
+    let state = {
+        isPowerOn: false,
+        currentChannel: 1,
+        currentVolume: 50,
+        isMuted: false,
+        lastChannel: 1,
+        lastVolume: 50,
+        isGeminiLoading: false,
+        isGeminiTrayOpen: false,
+        isHomeMode: false,
+        isStandbyMode: false,
+        isMusicMode: false, 
+        recommendations: [],
+        focusedRecommendationIndex: 0,
+        iotItems: [
+            { id: 0, type: 'audio', on: false, name: 'Audio' }, { id: 1, type: 'light', on: false, name: 'Room1 Light' }, { id: 2, type: 'light', on: false, name: 'Kitchen Light' },
+            { id: 3, type: 'light', on: false, name: 'Living Center' }, { id: 4, type: 'light', on: false, name: 'Bath Light' }, { id: 5, type: 'light', on: false, name: 'Room2 Light' },
+            { id: 6, type: 'vacuum', on: false, name: 'Vacuum' }, { id: 7, type: 'light', on: false, name: 'Living Bottom' }
+        ],
+        focusedIotIndex: 3,
+    };
 
     let musicState = { isPlaying: false, currentChannel: musicChannels[0], volume: 70, ctx: null, masterGain: null, reverb: null, nodes: [], ambience: null, sequencer: null };
     let clickSynth, confirmSynth, errorSynth, musicLoop;
-    const API_KEY = ""; 
-    const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${API_KEY}`;
+    let uiTimeout, clockInterval;
 
     document.addEventListener('DOMContentLoaded', () => {
         if (window.lucide) lucide.createIcons();
 
-        // DOM Elements
         const powerButton = document.getElementById('power-button');
+        const standbyButton = document.getElementById('btn-standby');
+        const homeButton = document.getElementById('home-button');
+        const musicButton = document.getElementById('btn-music');
         const geminiButton = document.getElementById('gemini-button');
         const geminiText = document.getElementById('gemini-text');
         const geminiLoader = document.getElementById('gemini-loader');
@@ -442,9 +442,6 @@
         const volUpButton = document.getElementById('vol-up');
         const volDownButton = document.getElementById('vol-down');
         const muteButton = document.getElementById('mute-button');
-        const homeButton = document.getElementById('home-button');
-        const standbyButton = document.getElementById('btn-standby');
-        const musicButton = document.getElementById('btn-music');
         const dPadOk = document.getElementById('d-pad-ok');
         const dPadUp = document.getElementById('d-pad-up');
         const dPadDown = document.getElementById('d-pad-down');
@@ -460,7 +457,7 @@
         const osdChannelName = document.getElementById('osd-channel-name');
         const osdVolumeBar = document.getElementById('osd-volume-bar');
         const osdVolumeText = document.getElementById('osd-volume-text');
-        const osdVolumeIcon = document.getElementById('osd-volume-icon');
+        const osdVolumeIcon = document.getElementById('osd-vol-icon');
         const osdMuteIcon = document.getElementById('osd-mute-icon');
         const geminiRecommendationTray = document.getElementById('gemini-recommendation-tray');
         const homeIotOverlay = document.getElementById('home-iot-overlay');
@@ -468,58 +465,23 @@
         const standbyTime = document.getElementById('standby-time');
         const standbyDate = document.getElementById('standby-date');
 
-        let state = {
-            isPowerOn: false,
-            currentChannel: 1,
-            currentVolume: 10,
-            isMuted: false,
-            lastChannel: 1,
-            lastVolume: 10,
-            isGeminiLoading: false,
-            isGeminiTrayOpen: false,
-            isHomeMode: false,
-            isStandbyMode: false,
-            isMusicMode: false, 
-            recommendations: [],
-            focusedRecommendationIndex: null,
-            areRecommendationsRendered: false,
-            iotItems: [
-                { id: 0, type: 'audio', on: false, name: 'Audio' }, { id: 1, type: 'light', on: false, name: 'Room1 Light' }, { id: 2, type: 'light', on: false, name: 'Kitchen Light' },
-                { id: 3, type: 'light', on: false, name: 'Living Center' }, { id: 4, type: 'light', on: false, name: 'Bath Light' }, { id: 5, type: 'light', on: false, name: 'Room2 Light' },
-                { id: 6, type: 'vacuum', on: false, name: 'Vacuum' }, { id: 7, type: 'light', on: false, name: 'Living Bottom' }
-            ],
-            focusedIotIndex: 3,
-        };
-
-        let uiTimeout, holdInterval, clockInterval;
-        let musicIdleTimer;
-
-        // --- Audio Functions ---
-        async function initAudio() {
+        function initAudio() {
             if (clickSynth) return;
             if (typeof Tone === 'undefined') return;
-            try { await Tone.start(); } catch(e){}
-            try {
+            Tone.start().then(() => {
                 clickSynth = new Tone.MembraneSynth({ pitchDecay: 0.01, octaves: 2, envelope: { attack: 0.001, decay: 0.1, sustain: 0 } }).toDestination();
                 confirmSynth = new Tone.Synth({ oscillator: { type: "triangle" }, envelope: { attack: 0.01, decay: 0.1, sustain: 0.1, release: 0.1 } }).toDestination();
                 errorSynth = new Tone.Synth({ oscillator: { type: "square" }, envelope: { attack: 0.01, decay: 0.2, sustain: 0, release: 0.1 } }).toDestination();
                 const synth = new Tone.PolySynth(Tone.Synth, { oscillator: { type: "triangle" }, envelope: { attack: 0.02, decay: 0.1, sustain: 0.3, release: 1 } }).toDestination();
                 synth.volume.value = -10;
-                const chord1 = ["C4", "E4", "G4", "B4"]; const chord2 = ["D4", "F4", "A4", "C5"];
-                musicLoop = new Tone.Loop(time => { const chord = Math.random() > 0.5 ? chord1 : chord2; synth.triggerAttackRelease(chord, "2n", time); }, "1n");
-                initMusicAudio(); 
-            } catch (e) { console.warn("Tone init failed", e); }
+                musicLoop = new Tone.Loop(time => { synth.triggerAttackRelease(["C4", "E4", "G4", "B4"], "2n", time); }, "1n");
+                initMusicAudio();
+            }).catch(e => console.warn("Tone init failed", e));
         }
+
         function playClick() { if (clickSynth) clickSynth.triggerAttackRelease("C1", "8n", Tone.now()); }
         function playConfirm() { if (confirmSynth) confirmSynth.triggerAttackRelease("C5", "8n", Tone.now()); }
-        function playError() { if (errorSynth) errorSynth.triggerAttackRelease("C3", "4n", Tone.now()); }
-        function toggleIoTMusic(play) {
-            if (!musicLoop) return;
-            if (play) { Tone.Transport.start(); musicLoop.start(0); if (tvVideoPlayer) tvVideoPlayer.volume = (state.currentVolume / 100) * 0.2; } 
-            else { musicLoop.stop(); Tone.Transport.stop(); if (tvVideoPlayer && !state.isMuted) tvVideoPlayer.volume = state.currentVolume / 100; }
-        }
-        
-        // --- Music App Audio Engine V2 (Rich Sound) ---
+
         function initMusicAudio() {
             if (!musicState.ctx && (window.AudioContext || window.webkitAudioContext)) {
                 musicState.ctx = new (window.AudioContext || window.webkitAudioContext)();
@@ -538,19 +500,19 @@
                 updateMusicVolume(musicState.volume);
             }
         }
+
         function updateMusicVolume(vol) {
             if (musicState.masterGain && musicState.ctx) musicState.masterGain.gain.setValueAtTime(vol / 100, musicState.ctx.currentTime);
             const volBar = document.getElementById('music-vol-bar');
-            const volText = document.getElementById('music-vol-text');
             if (volBar) volBar.style.width = `${vol}%`;
+            const volText = document.getElementById('music-vol-text');
             if (volText) volText.textContent = vol;
         }
+
         function playInstrument(freq, type, duration, time, vol = 0.1) {
             if (!musicState.ctx || !musicState.isPlaying) return;
             const ctx = musicState.ctx;
             const masterGain = musicState.masterGain;
-            
-            // Advanced Synth Setup
             const osc1 = ctx.createOscillator();
             const osc2 = ctx.createOscillator();
             const gain = ctx.createGain();
@@ -601,7 +563,6 @@
                 osc1.start(time); osc1.stop(time + 0.6);
                 return;
             } else if (type === 'hihat') {
-                // White Noise
                 const bufferSize = ctx.sampleRate * 0.1;
                 const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
                 const data = buffer.getChannelData(0);
@@ -624,11 +585,6 @@
             osc2.start(time); osc2.stop(time + duration + 1);
         }
 
-        function playAmbience(type) {
-            if (!musicState.ctx) return;
-            // (Simple placeholder logic for ambience - can be expanded)
-        }
-
         function startSequencer() {
             if (!musicState.isPlaying || !musicState.ctx) return;
             const ctx = musicState.ctx;
@@ -637,34 +593,27 @@
             const notes = SCALES[scale];
             const beatTime = bpm > 0 ? 60 / bpm : 1.5;
 
-            // Advanced Sequencer Logic per Style
             if (style === 'synth_pop') {
                 playInstrument(0, 'kick', 0.2, now, 0.4);
                 playInstrument(0, 'kick', 0.2, now + beatTime, 0.4);
                 playInstrument(0, 'kick', 0.2, now + beatTime*2, 0.4);
                 playInstrument(0, 'kick', 0.2, now + beatTime*3, 0.4);
-                
                 for(let i=0; i<8; i++) playInstrument(0, 'hihat', 0.05, now + i*(beatTime/2), 0.1);
-                
                 playInstrument(baseFreq/2, 'bass', beatTime*4, now, 0.3);
-                
                 [0, 2, 4].forEach(i => {
                      const pitch = notes[i % notes.length];
                      const freq = baseFreq * Math.pow(2, pitch/12);
                      playInstrument(freq, 'pad', beatTime*4, now, 0.15);
                 });
                  musicState.sequencer = setTimeout(startSequencer, beatTime * 4 * 1000);
-
             } else if (style === 'piano_ballad') {
                  [0, 2, 4, 7].forEach((n, i) => {
                      const pitch = notes[n % notes.length];
                      const freq = baseFreq * Math.pow(2, pitch/12);
-                     // irregular timing
                      playInstrument(freq, 'piano', 2, now + i*0.1 + (Math.random()*0.05), 0.25);
                  });
                  playInstrument(baseFreq/2, 'bass', 3, now, 0.2);
                  musicState.sequencer = setTimeout(startSequencer, beatTime * 2 * 1000);
-
             } else if (style === 'guitar_picking') {
                  [0, 2, 1, 3, 1, 2].forEach((n, i) => {
                     const pitch = notes[n % notes.length];
@@ -672,7 +621,6 @@
                     playInstrument(freq, 'guitar', 0.5, now + i*(beatTime/2), 0.2);
                  });
                  musicState.sequencer = setTimeout(startSequencer, beatTime * 3 * 1000);
-
             } else if (style === 'fantasy_chimes') {
                  if(Math.random() > 0.4) {
                      const pitch = notes[Math.floor(Math.random()*notes.length)];
@@ -682,7 +630,6 @@
                  playInstrument(baseFreq, 'pad', 5, now, 0.15);
                  musicState.sequencer = setTimeout(startSequencer, 2500);
             } else {
-                // Deep Drone
                 playInstrument(baseFreq/2, 'bass', 8, now, 0.5);
                 playInstrument(baseFreq, 'pad', 8, now, 0.2);
                 musicState.sequencer = setTimeout(startSequencer, 7000);
@@ -695,9 +642,8 @@
             if (musicState.ctx) musicState.ctx.suspend();
             const indicator = document.getElementById('music-playing-indicator');
             if (indicator) indicator.classList.add('hidden');
-            const album = document.getElementById('music-album-container');
-            if(album) { album.classList.remove('scale-100'); album.classList.add('scale-95'); }
         }
+
         function playMusicAppAudio() {
             initMusicAudio();
             if (musicState.ctx) musicState.ctx.resume();
@@ -705,43 +651,42 @@
             startSequencer();
             const indicator = document.getElementById('music-playing-indicator');
             if (indicator) indicator.classList.remove('hidden');
-            const album = document.getElementById('music-album-container');
-            if(album) { album.classList.remove('scale-95'); album.classList.add('scale-100'); }
         }
-        function toggleMusicPlay() { musicState.isPlaying ? stopMusicAppAudio() : playMusicAppAudio(); }
-        function switchMusicChannel(channel) {
-            if (musicState.currentChannel.id === channel.id) return;
+
+        function changeMusicChannel(direction) {
+            const currentIndex = musicChannels.findIndex(c => c.id === musicState.currentChannel.id);
+            let nextIndex;
+            if (direction === 'next') {
+                nextIndex = (currentIndex - 1 + musicChannels.length) % musicChannels.length;
+            } else {
+                nextIndex = (currentIndex + 1) % musicChannels.length;
+            }
             stopMusicAppAudio();
-            musicState.currentChannel = channel;
+            musicState.currentChannel = musicChannels[nextIndex];
             renderMusicApp();
-            setTimeout(() => playMusicAppAudio(), 200);
+            setTimeout(playMusicAppAudio, 200);
         }
+
         function renderMusicApp() {
             const ch = musicState.currentChannel;
-            const bgImg = document.getElementById('music-bg-img');
-            const bgGradient = document.getElementById('music-bg-gradient');
-            const albumArt = document.getElementById('music-album-art');
-            const title = document.getElementById('music-title');
-            const artist = document.getElementById('music-artist');
+            if(document.getElementById('music-bg-img')) document.getElementById('music-bg-img').src = ch.imageUrl;
+            if(document.getElementById('music-album-art')) document.getElementById('music-album-art').src = ch.imageUrl;
+            if(document.getElementById('music-title')) document.getElementById('music-title').textContent = ch.title;
+            if(document.getElementById('music-artist')) document.getElementById('music-artist').textContent = ch.artist;
             const listEl = document.getElementById('music-channel-list');
-            const fullBg = document.getElementById('music-bg-img-full');
-            const fullGrad = document.getElementById('music-bg-gradient-full');
-
-            if(bgImg) bgImg.src = ch.imageUrl;
-            if(bgGradient) bgGradient.className = `absolute inset-0 transition-all duration-1000 ${ch.bgGradient}`;
-            if(albumArt) albumArt.src = ch.imageUrl;
-            if(title) title.textContent = ch.title;
-            if(artist) artist.textContent = ch.artist;
-            if(fullBg) fullBg.src = ch.imageUrl;
-            if(fullGrad) fullGrad.className = `absolute inset-0 transition-all duration-1000 ${ch.bgGradient}`;
-
             if(listEl) {
                 listEl.innerHTML = '';
                 musicChannels.forEach(c => {
                     const el = document.createElement('div');
-                    el.className = `music-channel-item flex items-center gap-3 p-2.5 rounded-xl transition-all duration-200 text-left cursor-pointer hover:bg-white/5 ${musicState.currentChannel.id === c.id ? 'active' : ''}`;
+                    el.className = `music-channel-item flex items-center gap-3 p-2.5 rounded-xl cursor-pointer hover:bg-white/5 ${musicState.currentChannel.id === c.id ? 'active' : ''}`;
                     el.innerHTML = `<div class="w-10 h-10 rounded-lg overflow-hidden relative"><img src="${c.imageUrl}" class="w-full h-full object-cover"></div><div class="flex-1"><h4 class="text-sm font-medium text-white">${c.title}</h4></div>`;
-                    el.onclick = () => switchMusicChannel(c);
+                    el.onclick = (e) => { 
+                        e.stopPropagation();
+                        stopMusicAppAudio(); 
+                        musicState.currentChannel = c; 
+                        renderMusicApp(); 
+                        setTimeout(playMusicAppAudio, 200); 
+                    };
                     listEl.appendChild(el);
                 });
             }
@@ -749,387 +694,301 @@
 
         function updateVideoForChannel() {
             if (!tvVideoPlayer) return;
-            // Cycle channels 1-30
             if (state.currentChannel < 1) state.currentChannel = 30; 
             if (state.currentChannel > 30) state.currentChannel = 1;
-            
-            // Get new source
             const currentData = videoChannelMap[state.currentChannel];
-            const newUrl = currentData.url;
             
             if (state.isPowerOn && !state.isStandbyMode && !state.isMusicMode) {
-                 // Force reload if URL changes or src is empty
-                 if (tvVideoPlayer.src !== newUrl) {
-                     tvVideoPlayer.src = newUrl;
-                     tvVideoPlayer.load();
-                     tvVideoPlayer.play().catch(e => console.warn("Autoplay blocked", e));
-                 }
+                tvVideoPlayer.muted = state.isMuted;
+                tvVideoPlayer.volume = state.currentVolume / 100;
+                if (tvVideoPlayer.src !== currentData.url) {
+                    tvVideoPlayer.pause();
+                    tvVideoPlayer.src = currentData.url;
+                    tvVideoPlayer.load();
+                }
+                tvVideoPlayer.play().catch(e => {
+                    tvVideoPlayer.muted = true;
+                    tvVideoPlayer.play().catch(err => console.error("Video fail", err));
+                });
             }
-        }
-
-        function updateClock() {
-            const now = new Date();
-            const timeStr = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false });
-            const dateStr = now.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
-            if (standbyTime) standbyTime.textContent = timeStr;
-            if (standbyDate) standbyDate.textContent = dateStr.toUpperCase();
-        }
-
-        function renderGeminiTrayContent(recommendations) {
-            const trayContent = document.querySelector('#gemini-recommendation-tray .overflow-x-auto'); 
-            if (!trayContent || recommendations.length === 0) return;
-            trayContent.innerHTML = ''; 
-            recommendations.forEach((item, index) => {
-                const itemEl = document.createElement('div'); 
-                itemEl.className = 'gemini-item'; 
-                const vidIndex = Math.max(1, Math.min(30, item.channel));
-                const vidSource = videoChannelMap[vidIndex].url; 
-                
-                // Use Video Tag for previews
-                itemEl.innerHTML = `<video src="${vidSource}" muted autoplay loop playsinline class="w-full h-full object-cover"></video><div class="gemini-item-info"><p class="gemini-item-title">${item.title}</p><p class="gemini-item-channel">CH ${item.channel}</p></div>`;
-                
-                itemEl.dataset.index = index;
-                itemEl.addEventListener('click', () => { state.focusedRecommendationIndex = index; masterDpadHandler('ok'); });
-                trayContent.appendChild(itemEl);
-            });
-        }
-
-        async function fetchWithRetry(url, options, retries=2) {
-            if(!API_KEY) throw new Error("No API Key");
-        }
-
-        async function handleGeminiSuggest() {
-            if (!state.isPowerOn || state.isGeminiLoading) return;
-            state.isGeminiLoading = true; 
-            if(geminiLoader) geminiLoader.classList.remove('hidden');
-            if(geminiText) geminiText.classList.add('hidden');
-            
-            setTimeout(() => {
-                state.recommendations = [
-                    { title: "Space Odyssey", channel: 2 }, { title: "Nature's Wonder", channel: 4 },
-                    { title: "Cyber Punk 2077", channel: 1 }, { title: "Classic Autos", channel: 5 },
-                    { title: "Dreamscapes", channel: 15 }, { title: "Urban Living", channel: 7 },
-                ];
-                state.isGeminiTrayOpen = true;
-                state.focusedRecommendationIndex = 0;
-                state.areRecommendationsRendered = true;
-                state.isGeminiLoading = false;
-                renderGeminiTrayContent(state.recommendations);
-                playConfirm();
-                updateTVDisplay();
-            }, 1000);
         }
 
         function updateTVDisplay(showUi = false, uiType = "standard") {
             clearTimeout(uiTimeout);
-            if (powerOffMessage) powerOffMessage.classList.toggle('hidden', state.isPowerOn);
-            if (tvVideoPlayer) tvVideoPlayer.classList.toggle('hidden', !state.isPowerOn || state.isStandbyMode || state.isMusicMode);
-            if (tvUiOverlay) tvUiOverlay.classList.toggle('hidden', !state.isPowerOn || state.isStandbyMode || state.isMusicMode);
+            if(powerOffMessage) powerOffMessage.classList.toggle('hidden', state.isPowerOn);
+            if(tvVideoPlayer) tvVideoPlayer.classList.toggle('hidden', !state.isPowerOn || state.isStandbyMode || state.isMusicMode);
+            if(tvUiOverlay) tvUiOverlay.classList.toggle('hidden', !state.isPowerOn || state.isStandbyMode || state.isMusicMode);
+            if(standbyOverlay) standbyOverlay.classList.toggle('hidden', !state.isStandbyMode);
+            if(homeIotOverlay) homeIotOverlay.classList.toggle('hidden', !state.isHomeMode);
             
-            if (standbyOverlay) standbyOverlay.classList.toggle('hidden', !state.isStandbyMode);
-            if (homeIotOverlay) {
-                homeIotOverlay.classList.toggle('hidden', !state.isHomeMode);
-                if(state.isHomeMode) {
-                    state.iotItems.forEach((item, idx) => {
-                        const el = document.getElementById(`iot-${item.id}`);
-                        if(el) {
-                            if(item.on) { el.classList.add('on'); if(item.type==='vacuum') el.classList.add('vacuum-cleaning'); }
-                            else { el.classList.remove('on'); el.classList.remove('vacuum-cleaning'); }
-                            if(idx === state.focusedIotIndex) el.classList.add('focused'); else el.classList.remove('focused');
-                        }
-                    });
-                }
-            }
-
-            if (geminiRecommendationTray) {
-                geminiRecommendationTray.classList.toggle('hidden', !state.isGeminiTrayOpen);
-                if (state.isGeminiTrayOpen) {
-                    const items = geminiRecommendationTray.querySelectorAll('.gemini-item');
-                    items.forEach(el => el.classList.remove('dpad-focused'));
-                    if (state.focusedRecommendationIndex != null && items[state.focusedRecommendationIndex]) {
-                        items[state.focusedRecommendationIndex].classList.add('dpad-focused');
-                        items[state.focusedRecommendationIndex].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+            if (state.isHomeMode && homeIotOverlay) {
+                state.iotItems.forEach((item, idx) => {
+                    const el = document.getElementById(`iot-${item.id}`);
+                    if(el) {
+                        el.classList.toggle('on', item.on);
+                        if(item.type === 'vacuum') el.classList.toggle('vacuum-cleaning', item.on);
+                        el.classList.toggle('focused', idx === state.focusedIotIndex);
                     }
-                }
+                });
             }
 
+            if (geminiRecommendationTray) geminiRecommendationTray.classList.toggle('hidden', !state.isGeminiTrayOpen);
+            
             if (musicAppOverlay) {
-                if (state.isMusicMode) {
-                    musicAppOverlay.classList.remove('hidden');
-                    setTimeout(() => musicAppOverlay.classList.add('active'), 10);
-                    if(musicBgEffect) musicBgEffect.classList.remove('hidden');
-                } else {
-                    musicAppOverlay.classList.remove('active');
-                    setTimeout(() => musicAppOverlay.classList.add('hidden'), 500);
-                    if(musicBgEffect) musicBgEffect.classList.add('hidden');
-                }
+                musicAppOverlay.classList.toggle('hidden', !state.isMusicMode);
+                if (state.isMusicMode) setTimeout(() => musicAppOverlay.classList.add('active'), 10);
+                else musicAppOverlay.classList.remove('active');
+                if(musicBgEffect) musicBgEffect.classList.toggle('hidden', !state.isMusicMode);
             }
             
-            if (geminiText && geminiLoader) {
-                geminiText.classList.toggle('hidden', state.isGeminiLoading);
-                geminiLoader.classList.toggle('hidden', !state.isGeminiLoading);
-            }
-
             if(osdChannelNum) osdChannelNum.textContent = state.currentChannel;
             if(osdChannelName) {
-                const currentData = videoChannelMap[state.currentChannel];
-                osdChannelName.textContent = currentData ? currentData.title : "Channel " + state.currentChannel;
+                const data = videoChannelMap[state.currentChannel];
+                osdChannelName.textContent = data ? data.title : "Channel";
             }
             if(osdVolumeText) osdVolumeText.textContent = state.isMuted ? "MUTE" : state.currentVolume;
-            if(osdVolumeIcon) osdVolumeIcon.classList.toggle('hidden', state.isMuted);
-            if(osdMuteIcon) osdMuteIcon.classList.toggle('hidden', !state.isMuted);
 
-            if (showUi && !state.isMusicMode && !state.isStandbyMode && !state.isHomeMode) {
-                if (uiType === "vol" && osdVolumeBar) osdVolumeBar.style.opacity = '1';
+            if (showUi && !state.isMusicMode && !state.isStandbyMode) {
+                if (uiType === "vol" && osdVolumeBar) osdVolumeBar.style.opacity = '1'; 
                 else if (osdChannelBar) osdChannelBar.style.opacity = '1';
-                
-                uiTimeout = setTimeout(() => {
-                    if (osdChannelBar) osdChannelBar.style.opacity = '0';
-                    if (osdVolumeBar) osdVolumeBar.style.opacity = '0';
+                uiTimeout = setTimeout(() => { 
+                    if(osdChannelBar) osdChannelBar.style.opacity = '0'; 
+                    if(osdVolumeBar) osdVolumeBar.style.opacity = '0'; 
                 }, 3000);
             }
         }
 
-        async function togglePower() {
-            try { await initAudio(); } catch(e){} playClick();
+        function renderGeminiTrayContent() {
+            const trayContainer = document.querySelector('#gemini-recommendation-tray .overflow-x-auto'); 
+            if(!trayContainer) return;
+            trayContainer.innerHTML = ''; 
+            state.recommendations.forEach((item, index) => {
+                const el = document.createElement('div'); 
+                el.className = `gemini-item ${index === state.focusedRecommendationIndex ? 'dpad-focused' : ''}`; 
+                el.innerHTML = `
+                    <video src="${videoChannelMap[item.channel].url}" muted autoplay loop playsinline class="w-full h-full object-cover"></video>
+                    <div class="gemini-item-info">
+                        <p class="gemini-item-title">${item.title}</p>
+                        <p class="gemini-item-channel">CH ${item.channel}</p>
+                    </div>
+                `;
+                el.onclick = (e) => {
+                    e.stopPropagation();
+                    state.currentChannel = item.channel;
+                    state.isGeminiTrayOpen = false;
+                    updateVideoForChannel();
+                    updateTVDisplay(true, "ch");
+                };
+                trayContainer.appendChild(el);
+                if (index === state.focusedRecommendationIndex) el.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+            });
+        }
+
+        function handleGeminiSuggestInternal() {
+            if (!state.isPowerOn) return;
+            if (state.isGeminiTrayOpen) { state.isGeminiTrayOpen = false; updateTVDisplay(); return; }
+            if (state.isGeminiLoading) return;
+            state.isGeminiLoading = true; 
+            if(geminiLoader) geminiLoader.classList.remove('hidden'); 
+            if(geminiText) geminiText.classList.add('hidden');
+            setTimeout(() => {
+                state.recommendations = [
+                    { title: "Sintel Trailer", channel: 1 }, { title: "MLB Highlights", channel: 2 }, { title: "Coastal Drone Flight", channel: 3 },
+                    { title: "Ski Jump", channel: 4 }, { title: "Big Buck Bunny", channel: 5 }, { title: "Elephants Dream", channel: 6 },
+                    { title: "Friday Life", channel: 7 }, { title: "Sintel Adventure", channel: 8 }, { title: "Jellyfish Nature", channel: 9 },
+                    { title: "Baseball Best", channel: 10 }, { title: "Movie Sintel", channel: 1 }, { title: "Sport MLB", channel: 2 }
+                ];
+                state.isGeminiTrayOpen = true; 
+                state.focusedRecommendationIndex = 0; 
+                state.isGeminiLoading = false;
+                renderGeminiTrayContent(); 
+                playConfirm(); 
+                updateTVDisplay();
+                if(geminiLoader) geminiLoader.classList.add('hidden');
+                if(geminiText) geminiText.classList.remove('hidden');
+            }, 800);
+        }
+
+        const volumeUp = () => { 
+            if(!state.isPowerOn) return; 
+            playClick(); 
+            if (state.isMusicMode) {
+                musicState.volume = Math.min(100, musicState.volume + 10);
+                updateMusicVolume(musicState.volume);
+            } else {
+                state.currentVolume = Math.min(100, state.currentVolume+10); 
+                updateVideoForChannel(); 
+            }
+            updateTVDisplay(true, "vol"); 
+        };
+
+        const volumeDown = () => { 
+            if(!state.isPowerOn) return; 
+            playClick(); 
+            if (state.isMusicMode) {
+                musicState.volume = Math.max(0, musicState.volume - 10);
+                updateMusicVolume(musicState.volume);
+            } else {
+                state.currentVolume = Math.max(0, state.currentVolume-10); 
+                updateVideoForChannel(); 
+            }
+            updateTVDisplay(true, "vol"); 
+        };
+
+        function togglePower() {
+            initAudio(); playClick();
             state.isPowerOn = !state.isPowerOn;
             if (state.isPowerOn) {
                 state.currentChannel = state.lastChannel; 
                 state.currentVolume = state.lastVolume; 
-                if(tvVideoPlayer) { 
-                    tvVideoPlayer.muted = state.isMuted; 
-                    tvVideoPlayer.volume = state.currentVolume/100; 
-                    // Ensure video starts on power on
-                    updateVideoForChannel();
-                }
+                updateVideoForChannel();
             } else {
                 state.lastChannel = state.currentChannel; 
                 state.lastVolume = state.currentVolume;
                 state.isMusicMode = false; state.isStandbyMode = false; state.isHomeMode = false; state.isGeminiTrayOpen = false;
                 if(clockInterval) clearInterval(clockInterval);
                 stopMusicAppAudio();
-                if(tvVideoPlayer) { tvVideoPlayer.pause(); tvVideoPlayer.src = ""; } // Clear src
+                if(tvVideoPlayer) { tvVideoPlayer.pause(); tvVideoPlayer.src = ""; }
             }
             updateTVDisplay(true);
         }
 
-        async function toggleStandby() {
+        function toggleStandby() {
             if (!state.isPowerOn) return; playClick();
             if (state.isStandbyMode) {
                 state.isStandbyMode = false;
                 if(clockInterval) clearInterval(clockInterval);
-                updateVideoForChannel();
-                if(tvVideoPlayer) tvVideoPlayer.play().catch(e=>console.warn(e));
+                updateVideoForChannel(); 
             } else {
                 state.isHomeMode = false; state.isGeminiTrayOpen = false; state.isMusicMode = false;
-                stopMusicAppAudio();
                 state.isStandbyMode = true;
+                stopMusicAppAudio();
+                if(tvVideoPlayer) tvVideoPlayer.pause();
                 updateClock();
                 clockInterval = setInterval(updateClock, 1000);
-                if(tvVideoPlayer) tvVideoPlayer.pause();
             }
             updateTVDisplay();
         }
 
-        async function toggleHomeMode() {
+        function toggleHomeMode() {
             if (!state.isPowerOn) return; playClick();
             state.isHomeMode = !state.isHomeMode;
             if (state.isHomeMode) {
                 state.isGeminiTrayOpen = false; state.isStandbyMode = false; state.isMusicMode = false;
-                if(tvVideoPlayer) tvVideoPlayer.play().catch(()=>{});
                 state.focusedIotIndex = 3; 
                 playConfirm();
-            }
-            updateTVDisplay();
-        }
-
-        async function toggleMusicMode() {
-            if (!state.isPowerOn) return; playClick();
-            state.isMusicMode = !state.isMusicMode;
-            if (state.isMusicMode) {
-                state.isHomeMode = false; state.isGeminiTrayOpen = false; state.isStandbyMode = false;
-                if(tvVideoPlayer) tvVideoPlayer.pause();
-                renderMusicApp();
-                playMusicAppAudio();
-                resetMusicIdleTimer(); 
             } else {
-                stopMusicAppAudio();
-                clearTimeout(musicIdleTimer);
-                if(musicAppOverlay) musicAppOverlay.classList.remove('dimmed'); 
-                // FIX: Ensure video resumes when exiting music mode
-                if(tvVideoPlayer) tvVideoPlayer.play().catch(e => console.warn(e));
+                updateVideoForChannel();
             }
             updateTVDisplay();
         }
 
-        function resetMusicIdleTimer() {
-            if (!state.isMusicMode) return;
-            clearTimeout(musicIdleTimer);
-            if(musicAppOverlay) musicAppOverlay.classList.remove('dimmed');
-            musicIdleTimer = setTimeout(() => {
-                if(state.isMusicMode && musicAppOverlay) musicAppOverlay.classList.add('dimmed');
-            }, 15000); 
-        }
-
-        function handleFullscreen() {
-            const tvContainer = document.querySelector('.max-w-4xl');
-            if (document.fullscreenElement) { 
-                document.exitFullscreen().catch(e => console.log("Fullscreen blocked", e)); 
-            } else { 
-                if (tvContainer) tvContainer.requestFullscreen().catch(e => console.log("Fullscreen blocked", e)); 
-            }
-        }
-
-        // Input Handlers
-        function volumeUp() {
-            if (!state.isPowerOn) return; playClick(); resetMusicIdleTimer();
-            if (state.isMusicMode) { musicState.volume = Math.min(100, musicState.volume+5); updateMusicVolume(musicState.volume); return; }
-            state.currentVolume = Math.min(100, state.currentVolume+10);
-            if(tvVideoPlayer) tvVideoPlayer.volume = state.currentVolume/100;
-            updateTVDisplay(true, "vol");
-        }
-        function volumeDown() {
-            if (!state.isPowerOn) return; playClick(); resetMusicIdleTimer();
-            if (state.isMusicMode) { musicState.volume = Math.max(0, musicState.volume-5); updateMusicVolume(musicState.volume); return; }
-            state.currentVolume = Math.max(0, state.currentVolume-10);
-            if(tvVideoPlayer) tvVideoPlayer.volume = state.currentVolume/100;
-            updateTVDisplay(true, "vol");
-        }
-        function toggleMute() {
-            if (!state.isPowerOn) return; playClick(); resetMusicIdleTimer();
-            if (state.isMusicMode) { 
-                const newVol = musicState.volume > 0 ? 0 : 70; 
-                musicState.volume = newVol; updateMusicVolume(newVol); 
-                return; 
-            }
-            state.isMuted = !state.isMuted;
-            if(tvVideoPlayer) tvVideoPlayer.muted = state.isMuted;
-            updateTVDisplay(true, "vol");
-        }
-        function channelUp() {
-            if (!state.isPowerOn) return; playClick(); resetMusicIdleTimer();
-            if (state.isMusicMode) { 
-                const idx = musicChannels.findIndex(c => c.id === musicState.currentChannel.id);
-                switchMusicChannel(musicChannels[(idx - 1 + musicChannels.length) % musicChannels.length]); 
-                return; 
-            }
-            if(state.currentChannel < 30) state.currentChannel++; else state.currentChannel = 1;
-            updateVideoForChannel(); updateTVDisplay(true, "ch");
-        }
-        function channelDown() {
-            if (!state.isPowerOn) return; playClick(); resetMusicIdleTimer();
-            if (state.isMusicMode) { 
-                const idx = musicChannels.findIndex(c => c.id === musicState.currentChannel.id);
-                switchMusicChannel(musicChannels[(idx + 1) % musicChannels.length]); 
-                return; 
-            }
-            if(state.currentChannel > 1) state.currentChannel--; else state.currentChannel = 30;
-            updateVideoForChannel(); updateTVDisplay(true, "ch");
-        }
-        
-        function masterDpadHandler(key) {
-            playClick(); resetMusicIdleTimer();
-            if (!state.isPowerOn) return;
-
+        function toggleMusicMode() {
+            if (!state.isPowerOn) return; playClick();
             if (state.isMusicMode) {
-                if (key === 'ok') toggleMusicPlay();
-                else if (key === 'left') volumeDown();
-                else if (key === 'right') volumeUp();
-                else if (key === 'up') channelUp();
-                else if (key === 'down') channelDown();
+                stopMusicAppAudio();
+                state.isMusicMode = false;
+                updateVideoForChannel();
+                updateTVDisplay();
+                return;
+            }
+            state.isMusicMode = true;
+            state.isHomeMode = false; state.isGeminiTrayOpen = false; state.isStandbyMode = false;
+            if(tvVideoPlayer) tvVideoPlayer.pause();
+            renderMusicApp();
+            playMusicAppAudio();
+            updateTVDisplay();
+        }
+
+        function updateClock() {
+            const now = new Date();
+            if (standbyTime) standbyTime.textContent = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false });
+            if (standbyDate) standbyDate.textContent = now.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }).toUpperCase();
+        }
+
+        function masterDpadHandler(key) {
+            if (!state.isPowerOn) return;
+            playClick();
+            if (state.isGeminiTrayOpen) {
+                if (key === 'left') state.focusedRecommendationIndex = Math.max(0, state.focusedRecommendationIndex - 1);
+                else if (key === 'right') state.focusedRecommendationIndex = Math.min(state.recommendations.length - 1, state.focusedRecommendationIndex + 1);
+                else if (key === 'ok') {
+                    state.currentChannel = state.recommendations[state.focusedRecommendationIndex].channel;
+                    state.isGeminiTrayOpen = false; updateVideoForChannel(); updateTVDisplay(true, "ch");
+                }
+                renderGeminiTrayContent();
                 return;
             }
             if (state.isHomeMode) {
-                if (['left', 'right', 'up', 'down'].includes(key)) {
-                    moveHomeFocus(key === 'left'?'l':(key==='right'?'r':(key==='up'?'u':'d')));
-                }
-                else if (key === 'ok') {
+                if (key === 'ok') {
                     const item = state.iotItems[state.focusedIotIndex];
-                    if(item) { item.on = !item.on; if(item.type==='audio') toggleIoTMusic(item.on); playConfirm(); updateTVDisplay(); }
+                    if(item) { item.on = !item.on; playConfirm(); updateTVDisplay(); }
+                } else {
+                    const nav = { 0:{r:1, d:5}, 1:{l:0, r:3, d:5}, 2:{l:3, d:4}, 3:{l:1, r:2, d:7}, 4:{l:3, d:7}, 5:{u:1, r:6}, 6:{u:3, l:5, r:7}, 7:{u:3, l:6, r:4} };
+                    const dirMap = { left:'l', right:'r', up:'u', down:'d' };
+                    const n = nav[state.focusedIotIndex]?.[dirMap[key]];
+                    if (n !== undefined) { state.focusedIotIndex = n; updateTVDisplay(); }
                 }
                 return;
             }
-            if (state.isGeminiTrayOpen) {
-                if (key === 'left') { state.focusedRecommendationIndex = Math.max(0, (state.focusedRecommendationIndex||0)-1); updateTVDisplay(); }
-                else if (key === 'right') { state.focusedRecommendationIndex = Math.min(state.recommendations.length-1, (state.focusedRecommendationIndex||0)+1); updateTVDisplay(); }
-                else if (key === 'ok') {
-                    const item = state.recommendations[state.focusedRecommendationIndex];
-                    if(item) {
-                        state.currentChannel = item.channel; updateVideoForChannel(); 
-                        state.isGeminiTrayOpen = false; updateTVDisplay(true, "ch");
-                    }
+            if (state.isMusicMode) {
+                if (key === 'up' || key === 'down') {
+                    changeMusicChannel(key === 'up' ? 'next' : 'prev');
+                    return;
                 }
+                if (key === 'left') volumeDown();
+                else if (key === 'right') volumeUp();
+                return;
             }
         }
 
-        function moveHomeFocus(dir) {
-            const homeNavMap = { 0: { r: 1, d: 5 }, 1: { l: 0, r: 3, d: 5 }, 2: { l: 3, d: 4 }, 3: { l: 1, r: 2, d: 7 }, 4: { l: 3, d: 7 }, 5: { u: 1, r: 6 }, 6: { u: 3, l: 5, r: 7 }, 7: { u: 3, l: 6, r: 4 } };
-            const n = homeNavMap[state.focusedIotIndex] && homeNavMap[state.focusedIotIndex][dir];
-            if (n !== undefined) { state.focusedIotIndex = n; updateTVDisplay(); }
-        }
+        // --- Event Listeners ---
+        powerButton.addEventListener('click', togglePower);
+        standbyButton.addEventListener('click', toggleStandby);
+        homeButton.addEventListener('click', toggleHomeMode);
+        musicButton.addEventListener('click', toggleMusicMode);
+        geminiButton.addEventListener('click', handleGeminiSuggestInternal);
         
-        function setupHoldableButton(button, actionFunction) {
-            if(!button) return;
-            const startHold = (e) => { e.preventDefault(); if (holdInterval) clearInterval(holdInterval); actionFunction(); holdInterval = setInterval(actionFunction, 150); };
-            const endHold = () => { clearInterval(holdInterval); };
-            button.addEventListener('mousedown', startHold); button.addEventListener('mouseup', endHold); button.addEventListener('mouseleave', endHold);
-            button.addEventListener('touchstart', startHold, {passive:false}); button.addEventListener('touchend', endHold);
-        }
+        chUpButton.addEventListener('click', () => { 
+            if(!state.isPowerOn) return; 
+            playClick(); 
+            if (state.isMusicMode) changeMusicChannel('next');
+            else { state.currentChannel++; updateVideoForChannel(); updateTVDisplay(true, "ch"); }
+        });
+        chDownButton.addEventListener('click', () => { 
+            if(!state.isPowerOn) return; 
+            playClick(); 
+            if (state.isMusicMode) changeMusicChannel('prev');
+            else { state.currentChannel--; updateVideoForChannel(); updateTVDisplay(true, "ch"); }
+        });
+        volUpButton.addEventListener('click', volumeUp);
+        volDownButton.addEventListener('click', volumeDown);
+        muteButton.addEventListener('click', () => { if(state.isPowerOn) { state.isMuted = !state.isMuted; if(tvVideoPlayer) tvVideoPlayer.muted = state.isMuted; updateTVDisplay(true, "vol"); } });
+        dPadOk.addEventListener('click', () => masterDpadHandler('ok'));
+        dPadUp.addEventListener('click', () => masterDpadHandler('up'));
+        dPadDown.addEventListener('click', () => masterDpadHandler('down'));
+        dPadLeft.addEventListener('click', () => masterDpadHandler('left'));
+        dPadRight.addEventListener('click', () => masterDpadHandler('right'));
 
         document.addEventListener('keydown', (e) => {
-            if (e.key === '0') { handleFullscreen(); return; }
-            if (e.key === 'Escape') { if (document.fullscreenElement) document.exitFullscreen().catch(()=>{}); return; }
-            
-            switch(e.key) {
-                case '7': simulateButtonPress(powerButton); togglePower(); break;
-                case '8': simulateButtonPress(standbyButton); toggleStandby(); break;
-                case '9': simulateButtonPress(chUpButton); channelUp(); break;
-                case '6': simulateButtonPress(chDownButton); channelDown(); break;
-                case '+': simulateButtonPress(volUpButton); volumeUp(); break;
-                case '-': simulateButtonPress(volDownButton); volumeDown(); break;
-                case '4': simulateButtonPress(muteButton); toggleMute(); break;
-                case '5': simulateButtonPress(homeButton); toggleHomeMode(); break;
-                case '1': simulateButtonPress(geminiButton); geminiButton.click(); break;
-                case '2': simulateButtonPress(musicButton); toggleMusicMode(); break;
-                case 'ArrowUp': simulateButtonPress(dPadUp); masterDpadHandler('up'); break;
-                case 'ArrowDown': simulateButtonPress(dPadDown); masterDpadHandler('down'); break;
-                case 'ArrowLeft': simulateButtonPress(dPadLeft); masterDpadHandler('left'); break;
-                case 'ArrowRight': simulateButtonPress(dPadRight); masterDpadHandler('right'); break;
-                case 'Enter': simulateButtonPress(dPadOk); masterDpadHandler('ok'); break;
+            const keyMap = { '7':powerButton, '8':standbyButton, '9':chUpButton, '6':chDownButton, '+':volUpButton, '-':volDownButton, '4':muteButton, '5':homeButton, '1':geminiButton, '2':musicButton, 'ArrowUp':dPadUp, 'ArrowDown':dPadDown, 'ArrowLeft':dPadLeft, 'ArrowRight':dPadRight, 'Enter':dPadOk };
+            const btn = keyMap[e.key];
+            if (btn) {
+                btn.classList.add('active-key'); setTimeout(() => btn.classList.remove('active-key'), 150);
+                if (e.key === '7') togglePower(); 
+                else if (e.key === '8') toggleStandby(); 
+                else if (e.key === '9') chUpButton.click(); 
+                else if (e.key === '6') chDownButton.click();
+                else if (e.key === '+') volumeUp(); 
+                else if (e.key === '-') volumeDown();
+                else if (e.key === '4') muteButton.click(); 
+                else if (e.key === '5') toggleHomeMode(); 
+                else if (e.key === '1') handleGeminiSuggestInternal(); 
+                else if (e.key === '2') toggleMusicMode();
+                else if (e.key.startsWith('Arrow')) masterDpadHandler(e.key.replace('Arrow', '').toLowerCase()); 
+                else if (e.key === 'Enter') masterDpadHandler('ok');
             }
         });
-
-        function simulateButtonPress(btn) {
-            if(btn) {
-                btn.classList.add('active-key');
-                setTimeout(() => btn.classList.remove('active-key'), 150);
-            }
-        }
-
-        if(powerButton) powerButton.addEventListener('click', togglePower);
-        if(standbyButton) standbyButton.addEventListener('click', toggleStandby);
-        if(homeButton) homeButton.addEventListener('click', toggleHomeMode);
-        if(musicButton) musicButton.addEventListener('click', toggleMusicMode);
-        if(geminiButton) geminiButton.addEventListener('click', async () => { 
-            await initAudio(); playClick(); 
-            if(state.isGeminiLoading) return;
-            if(state.isHomeMode) toggleHomeMode(); 
-            if(state.isStandbyMode) toggleStandby(); 
-            if(state.isMusicMode) toggleMusicMode();
-            if(state.isGeminiTrayOpen) { state.isGeminiTrayOpen = false; updateTVDisplay(); }
-            else handleGeminiSuggest(); 
-        });
-
-        if(muteButton) muteButton.addEventListener('click', toggleMute);
-        setupHoldableButton(volUpButton, volumeUp); setupHoldableButton(volDownButton, volumeDown);
-        setupHoldableButton(chUpButton, channelUp); setupHoldableButton(chDownButton, channelDown);
-        
-        if(dPadOk) dPadOk.addEventListener('click', () => masterDpadHandler('ok'));
-        if(dPadUp) dPadUp.addEventListener('click', () => masterDpadHandler('up'));
-        if(dPadDown) dPadDown.addEventListener('click', () => masterDpadHandler('down'));
-        if(dPadLeft) dPadLeft.addEventListener('click', () => masterDpadHandler('left'));
-        if(dPadRight) dPadRight.addEventListener('click', () => masterDpadHandler('right'));
-
         updateTVDisplay();
     });
     </script>
