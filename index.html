@@ -355,6 +355,43 @@
         </div>
     </div>
 
+    <!-- TV 시뮬레이터 UI 추적 스크립트 -->
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+      import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+      import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+      const firebaseConfig = {"apiKey":"AIzaSyCqyCcs2R2e7AegGjvFAwG98wlamtbHvZY","authDomain":"bard-frontend.firebaseapp.com","projectId":"bard-frontend","storageBucket":"bard-frontend.firebasestorage.app","messagingSenderId":"175205271074","appId":"1:175205271074:web:2b7bd4d34d33bf38e6ec7b"};
+      const appId = "c_8e4b701c654d33e9_index.html-965";
+      
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth(app);
+      const db = getFirestore(app);
+
+      let sessionId = sessionStorage.getItem('tv_test_session');
+      if (!sessionId) {
+        sessionId = 'session_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
+        sessionStorage.setItem('tv_test_session', sessionId);
+      }
+
+      signInAnonymously(auth).then(() => {
+        console.log("TV Simulator Analytics Connected.");
+        document.addEventListener('click', (e) => {
+          const target = e.target.closest('button') || e.target;
+          const elementId = target.id || target.getAttribute('aria-label') || target.innerText?.trim() || target.className;
+          
+          if (elementId && elementId.length > 0 && elementId.length < 50) {
+            addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'ui_events'), {
+              sessionId: sessionId,
+              timestamp: Date.now(),
+              action: 'click',
+              targetId: elementId
+            }).catch(err => console.error(err));
+          }
+        });
+      });
+    </script>
+
     <script>
     // --- Data Configuration (8 Channels Repeat to 30) ---
     const SCALES = { dream: [0, 4, 7, 11, 14], jazz: [0, 3, 7, 10, 14], folk: [0, 2, 4, 7, 9], mystic: [0, 2, 4, 6, 9], deep: [0, 5, 7, 12] };
@@ -562,7 +599,6 @@
             updateDisplay(true);
         }
 
-        // --- Fix: toggleStandby definition restored ---
         function toggleStandby() {
             if (!state.isPowerOn) return;
             if (clickSynth) clickSynth.triggerAttackRelease("C1", "8n");
