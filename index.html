@@ -355,31 +355,48 @@
         </div>
     </div>
 
-    <!-- UI 이벤트 로깅 스크립트 -->
+    <!-- TV 시뮬레이터 추적 센서 -->
     <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+      import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+      import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-    const firebaseConfig = {"apiKey":"AIzaSyAAYNgibjfk61ZVOiCGeIwpkornY700KtM","authDomain":"prototype-kyuil.firebaseapp.com","projectId":"prototype-kyuil","storageBucket":"prototype-kyuil.appspot.com","messagingSenderId":"64201667970","appId":"1:64201667970:web:ae247a6e7021a267a34b9b"};
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
+      // 대시보드와 동일한 파이어베이스 API 키 정보입니다.
+      const firebaseConfig = {
+          apiKey: "AIzaSyAAYNgibjfk61ZVOiCGeIwpkornY700KtM",
+          authDomain: "prototype-kyuil.firebaseapp.com",
+          projectId: "prototype-kyuil",
+          appId: "1:64201667970:web:ae247a6e7021a267a34b9b"
+      };
+      const appId = "tv-simulator-v1"; // 대시보드와 연결되는 고유 ID
 
-    let sessionId = sessionStorage.getItem('tv_test_session') || 'sess_' + Math.random().toString(36).substr(2, 9);
-    sessionStorage.setItem('tv_test_session', sessionId);
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
+      
+      // 사용자 구분을 위한 임시 세션 ID 발급
+      let sid = sessionStorage.getItem('tv_test_sid') || 's_' + Date.now() + '_' + Math.random().toString(36).substr(2,5);
+      sessionStorage.setItem('tv_test_sid', sid);
 
-    signInAnonymously(auth).then(() => {
+      // 접속 시 자동 익명 로그인 처리 후 버튼 클릭 감지 시작
+      signInAnonymously(getAuth(app)).then(() => {
+        console.log("TV 분석기와 성공적으로 연동되었습니다!");
+        
         document.addEventListener('click', (e) => {
-            const target = e.target.closest('button') || e.target;
-            const label = target.id || target.getAttribute('aria-label') || target.innerText?.trim() || target.className;
-            if (label && label.length < 50) {
-                addDoc(collection(db, 'artifacts', 'tv-simulator-v1', 'public', 'data', 'ui_events'), {
-                    sessionId, timestamp: Date.now(), targetId: label
-                });
-            }
+          // 클릭한 요소가 버튼이거나 특정 ID를 가졌는지 확인
+          let t = e.target.closest('button') || e.target.closest('.button') || e.target;
+          let id = t.id || t.getAttribute('aria-label') || t.innerText?.trim();
+          
+          // 너무 길지 않은 유효한 버튼 이름일 경우에만 대시보드로 데이터 전송
+          if(id && id.length < 30) {
+              addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'ui_events'), { 
+                  sessionId: sid, 
+                  timestamp: Date.now(), 
+                  action: 'click', 
+                  targetId: id 
+              }).catch(err => console.error("데이터 전송 오류:", err));
+          }
         });
-    });
+      });
     </script>
 
     <script>
