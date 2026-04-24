@@ -218,7 +218,7 @@
             
             <!-- 음악 효과 배경 -->
             <div id="music-bg-effect" class="absolute inset-0 z-15 hidden transition-all duration-700">
-                <img id="music-bg-img-full" src="" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?q=80&w=800&auto=format&fit=crop';" class="w-full h-full object-cover opacity-30 blur-3xl scale-110 duration-1000">
+                <img id="music-bg-img-full" src="" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?q=80&w=800&auto=format&fit=crop';" class="w-full h-full object-cover duration-1000">
                 <div class="absolute inset-0 bg-black/50"></div>
                 <div id="music-bg-gradient-full" class="absolute inset-0 transition-all duration-1000"></div>
             </div>
@@ -361,32 +361,27 @@
       import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
       import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-      // 대시보드와 동일한 파이어베이스 API 키 정보입니다.
       const firebaseConfig = {
           apiKey: "AIzaSyAAYNgibjfk61ZVOiCGeIwpkornY700KtM",
           authDomain: "prototype-kyuil.firebaseapp.com",
           projectId: "prototype-kyuil",
           appId: "1:64201667970:web:ae247a6e7021a267a34b9b"
       };
-      const appId = "tv-simulator-v1"; // 대시보드와 연결되는 고유 ID
+      const appId = "tv-simulator-v1"; 
 
       const app = initializeApp(firebaseConfig);
       const db = getFirestore(app);
       
-      // 사용자 구분을 위한 임시 세션 ID 발급
       let sid = sessionStorage.getItem('tv_test_sid') || 's_' + Date.now() + '_' + Math.random().toString(36).substr(2,5);
       sessionStorage.setItem('tv_test_sid', sid);
 
-      // 접속 시 자동 익명 로그인 처리 후 버튼 클릭 감지 시작
       signInAnonymously(getAuth(app)).then(() => {
         console.log("TV 분석기와 성공적으로 연동되었습니다!");
         
         document.addEventListener('click', (e) => {
-          // 클릭한 요소가 버튼이거나 특정 ID를 가졌는지 확인
           let t = e.target.closest('button') || e.target.closest('.button') || e.target;
           let id = t.id || t.getAttribute('aria-label') || t.innerText?.trim();
           
-          // 너무 길지 않은 유효한 버튼 이름일 경우에만 대시보드로 데이터 전송
           if(id && id.length < 30) {
               addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'ui_events'), { 
                   sessionId: sid, 
@@ -400,14 +395,13 @@
     </script>
 
     <script>
-    // --- Data Configuration (8 Channels Repeat to 30) ---
-    const SCALES = { dream: [0, 4, 7, 11, 14], jazz: [0, 3, 7, 10, 14], folk: [0, 2, 4, 7, 9], mystic: [0, 2, 4, 6, 9], deep: [0, 5, 7, 12] };
+    // --- Data Configuration ---
     const musicChannels = [
-        { id: 1, title: "Sunset Drive", artist: "Dreamy Synthwave", imageUrl: "https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?q=80&w=800&auto=format&fit=crop", baseFreq: 261.63, scale: 'dream', style: 'synth_pop', bpm: 100 },
-        { id: 2, title: "Rainy Jazz", artist: "Piano & Ambience", imageUrl: "https://images.unsplash.com/photo-1515694346937-94d85e41e6f0?q=80&w=800&auto=format&fit=crop", baseFreq: 220.00, scale: 'jazz', style: 'piano_ballad', bpm: 60 },
-        { id: 3, title: "Campfire", artist: "Acoustic Guitar", imageUrl: "https://images.unsplash.com/photo-1478131143081-80f7f84ca84d?q=80&w=800&auto=format&fit=crop", baseFreq: 146.83, scale: 'folk', style: 'guitar_picking', bpm: 80 },
-        { id: 4, title: "Secret Garden", artist: "Harp & Nature", imageUrl: "https://images.unsplash.com/photo-1518173946687-a4c8892bbd9f?q=80&w=800&auto=format&fit=crop", baseFreq: 329.63, scale: 'mystic', style: 'fantasy_chimes', bpm: 0 },
-        { id: 5, title: "Deep Sleep", artist: "Ocean Strings", imageUrl: "https://images.unsplash.com/photo-1551244072-5d12893278ab?q=80&w=800&auto=format&fit=crop", baseFreq: 98.00, scale: 'deep', style: 'drone_pad', bpm: 0 }
+        { id: 1, title: "Violin Concerto No. 1", artist: "W. A. Mozart", imageUrl: "https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?q=80&w=800&auto=format&fit=crop", audioUrl: "https://dn720307.ca.archive.org/0/items/lp_violin-concertos_wolfgang-amadeus-mozart-wolfgang-schneider/disc1/01.02.%20Concerto%20For%20Violin%20%26%20Orchestra%20No.%201%20B%20Flat%20Major%2C%20K%20207%3A%202nd%20Mov.%3A%20Adagio.mp3" },
+        { id: 2, title: "Violin Concerto No. 2", artist: "W. A. Mozart", imageUrl: "https://images.unsplash.com/photo-1515694346937-94d85e41e6f0?q=80&w=800&auto=format&fit=crop", audioUrl: "https://dn720307.ca.archive.org/0/items/lp_violin-concertos_wolfgang-amadeus-mozart-wolfgang-schneider/disc1/02.02.%20Concerto%20For%20Violin%20%26%20Orchestra%20No.%202%20In%20D%20Major%2C%20K%20211%3A%202nd%20Mov.%3A%20Andante.mp3" },
+        { id: 3, title: "Violin Concerto No. 4", artist: "W. A. Mozart", imageUrl: "https://images.unsplash.com/photo-1478131143081-80f7f84ca84d?q=80&w=800&auto=format&fit=crop", audioUrl: "https://dn720307.ca.archive.org/0/items/lp_violin-concertos_wolfgang-amadeus-mozart-wolfgang-schneider/disc3/05.03.%20Concerto%20For%20Violin%20%26%20Orchestra%20No.%204%20In%20D%20Major%2C%20K%20218%3A%203rd%20Mov.%3A%20Rondeau%3A%20Andante%20Grazioso%20-%20Allegro%20Ma%20Non%20Troppo.mp3" },
+        { id: 4, title: "Violin Concerto No. 5", artist: "W. A. Mozart", imageUrl: "https://images.unsplash.com/photo-1518173946687-a4c8892bbd9f?q=80&w=800&auto=format&fit=crop", audioUrl: "https://dn720307.ca.archive.org/0/items/lp_violin-concertos_wolfgang-amadeus-mozart-wolfgang-schneider/disc3/06.03.%20Concerto%20For%20Violin%20%26%20Orchestra%20No.%205%20In%20A%20Major%20K%20219%3A%203rd%20Mov.%3A%20Rondeau%3A%20Tempo%20di%20Menuetto%20-%20Allegro.mp3" },
+        { id: 5, title: "Adagio in E Major", artist: "W. A. Mozart", imageUrl: "https://images.unsplash.com/photo-1551244072-5d12893278ab?q=80&w=800&auto=format&fit=crop", audioUrl: "https://dn720307.ca.archive.org/0/items/lp_violin-concertos_wolfgang-amadeus-mozart-wolfgang-schneider/disc2/04.01.%20Adagio%20For%20Violin%20In%20E%20Major%2C%20K%20261.mp3" }
     ];
 
     const channelData = [
@@ -433,9 +427,10 @@
         focusedIotIndex: 3,
     };
 
-    let musicState = { isPlaying: false, currentChannel: musicChannels[0], volume: 70, ctx: null, masterGain: null, reverb: null, sequencer: null };
-    let clickSynth, confirmSynth, musicLoop, uiTimeout, clockInterval;
+    let musicState = { isPlaying: false, currentChannel: musicChannels[0], volume: 70, audioElement: null };
+    let uiTimeout, clockInterval;
     let playPromise = null;
+    let musicPlayPromise = null;
 
     document.addEventListener('DOMContentLoaded', () => {
         if (window.lucide) lucide.createIcons();
@@ -444,51 +439,56 @@
         const tvIframe = document.getElementById('tv-iframe-player');
 
         // --- Music Functions ---
-        function initMusicAudio() {
-            if (!musicState.ctx && (window.AudioContext || window.webkitAudioContext)) {
-                musicState.ctx = new (window.AudioContext || window.webkitAudioContext)();
-                musicState.masterGain = musicState.ctx.createGain();
-                musicState.masterGain.connect(musicState.ctx.destination);
-                const duration = 3, length = musicState.ctx.sampleRate * duration;
-                const impulse = musicState.ctx.createBuffer(2, length, musicState.ctx.sampleRate);
-                for (let i = 0; i < length; i++) {
-                    const decay = Math.pow(1 - i / length, 2);
-                    impulse.getChannelData(0)[i] = (Math.random() * 2 - 1) * decay;
-                    impulse.getChannelData(1)[i] = (Math.random() * 2 - 1) * decay;
+        async function stopMusic() { 
+            musicState.isPlaying = false; 
+            if (musicState.audioElement) {
+                if (musicPlayPromise) {
+                    try { await musicPlayPromise; } catch(e) {}
                 }
-                musicState.reverb = musicState.ctx.createConvolver();
-                musicState.reverb.buffer = impulse;
-                musicState.reverb.connect(musicState.masterGain);
+                musicState.audioElement.pause();
             }
-            if (musicState.ctx) musicState.ctx.resume();
+            document.getElementById('music-playing-indicator')?.classList.add('hidden'); 
         }
 
-        function playInstrument(freq, type, duration, time, vol = 0.1) {
-            if (!musicState.ctx || !musicState.isPlaying) return;
-            const ctx = musicState.ctx, masterGain = musicState.masterGain, osc1 = ctx.createOscillator(), osc2 = ctx.createOscillator(), gain = ctx.createGain(), filter = ctx.createBiquadFilter();
-            if (type === 'piano') { osc1.type = 'triangle'; osc2.type = 'sine'; gain.gain.setValueAtTime(0, time); gain.gain.linearRampToValueAtTime(vol, time + 0.02); gain.gain.exponentialRampToValueAtTime(0.001, time + duration); filter.type = 'lowpass'; filter.frequency.value = 3000; }
-            else if (type === 'pad') { osc1.type = 'sawtooth'; osc2.type = 'triangle'; osc2.detune.value = -10; gain.gain.setValueAtTime(0, time); gain.gain.linearRampToValueAtTime(vol*0.5, time + 0.5); gain.gain.exponentialRampToValueAtTime(0.001, time + duration + 1); filter.type = 'lowpass'; filter.frequency.value = 800; }
-            else if (type === 'bass') { osc1.type = 'sawtooth'; osc2.type = 'square'; osc2.frequency.value = freq/2; gain.gain.setValueAtTime(0, time); gain.gain.linearRampToValueAtTime(vol, time + 0.05); filter.type = 'lowpass'; filter.frequency.value = 400; }
-            else if (type === 'bell') { osc1.type = 'sine'; osc2.type = 'sine'; osc2.frequency.value = freq * 2; gain.gain.setValueAtTime(0, time); gain.gain.linearRampToValueAtTime(vol, time + 0.01); filter.type = 'highpass'; filter.frequency.value = 1000; }
-            else if (type === 'kick') { osc1.type = 'sine'; osc1.frequency.setValueAtTime(150, time); osc1.frequency.exponentialRampToValueAtTime(0.01, time + 0.5); gain.gain.setValueAtTime(vol, time); gain.gain.exponentialRampToValueAtTime(0.001, time + 0.5); osc1.connect(gain); gain.connect(masterGain); osc1.start(time); osc1.stop(time + 0.6); return; }
-            else if (type === 'hihat') { const bufferSize = ctx.sampleRate * 0.1, buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate), data = buffer.getChannelData(0); for (let i = 0; i < bufferSize; i++) data[i] = Math.random() * 2 - 1; const noise = ctx.createBufferSource(); noise.buffer = buffer; const noiseFilter = ctx.createBiquadFilter(); noiseFilter.type = 'highpass'; noiseFilter.frequency.value = 5000; const noiseGain = ctx.createGain(); noiseGain.gain.setValueAtTime(vol*0.4, time); noiseGain.gain.exponentialRampToValueAtTime(0.001, time + 0.05); noise.connect(noiseFilter); noiseFilter.connect(noiseGain); noiseGain.connect(masterGain); noise.start(time); return; }
-            osc1.frequency.value = freq; osc2.frequency.value = freq; osc1.connect(filter); osc2.connect(filter); filter.connect(gain); gain.connect(musicState.reverb); gain.connect(masterGain); osc1.start(time); osc1.stop(time + duration + 1); osc2.start(time); osc2.stop(time + duration + 1);
+        function playMusic() { 
+            if (!musicState.audioElement) {
+                musicState.audioElement = new Audio();
+                musicState.audioElement.loop = true;
+                musicState.audioElement.preload = "auto";
+            }
+            
+            musicState.isPlaying = true; 
+            const currentUrl = musicState.currentChannel.audioUrl;
+            
+            if (musicState.audioElement.src !== currentUrl) {
+                musicState.audioElement.src = currentUrl;
+                musicState.audioElement.load();
+            }
+            
+            // 핵심 수정: 3초가 아닌 0초(처음)부터 재생
+            musicState.audioElement.currentTime = 0;
+            musicState.audioElement.volume = musicState.volume / 100;
+            musicState.audioElement.muted = state.isMuted;
+            
+            musicPlayPromise = musicState.audioElement.play();
+            if (musicPlayPromise !== undefined) {
+                musicPlayPromise.catch(e => {
+                    if (e.name !== 'AbortError') console.error("Playback failed:", e);
+                }).finally(() => {
+                    musicPlayPromise = null;
+                });
+            }
+            document.getElementById('music-playing-indicator')?.classList.remove('hidden'); 
         }
 
-        function startSequencer() {
-            if (!musicState.isPlaying || !musicState.ctx) return;
-            const ctx = musicState.ctx, now = ctx.currentTime, { baseFreq, scale, style, bpm } = musicState.currentChannel, notes = SCALES[scale], beatTime = bpm > 0 ? 60 / bpm : 1.5;
-            if (style === 'synth_pop') { playInstrument(0, 'kick', 0.2, now, 0.4); playInstrument(0, 'kick', 0.2, now + beatTime, 0.4); for(let i=0; i<8; i++) playInstrument(0, 'hihat', 0.05, now + i*(beatTime/2), 0.1); playInstrument(baseFreq/2, 'bass', beatTime*4, now, 0.3); notes.slice(0,3).forEach(p => playInstrument(baseFreq * Math.pow(2, p/12), 'pad', beatTime*4, now, 0.15)); musicState.sequencer = setTimeout(startSequencer, beatTime * 4 * 1000); }
-            else if (style === 'piano_ballad') { [0, 2, 4, 7].forEach((n, i) => playInstrument(baseFreq * Math.pow(2, notes[n%notes.length]/12), 'piano', 2, now + i*0.1, 0.25)); playInstrument(baseFreq/2, 'bass', 3, now, 0.2); musicState.sequencer = setTimeout(startSequencer, beatTime * 2 * 1000); }
-            else if (style === 'guitar_picking') { [0, 2, 1, 3, 1, 2].forEach((n, i) => playInstrument(baseFreq * Math.pow(2, notes[n%notes.length]/12), 'guitar', 0.5, now + i*(beatTime/2), 0.2)); musicState.sequencer = setTimeout(startSequencer, beatTime * 3 * 1000); }
-            else if (style === 'fantasy_chimes') { if(Math.random() > 0.4) playInstrument(baseFreq * 2 * Math.pow(2, notes[Math.floor(Math.random()*notes.length)]/12), 'bell', 4, now, 0.2); playInstrument(baseFreq, 'pad', 5, now, 0.15); musicState.sequencer = setTimeout(startSequencer, 2500); }
-            else { playInstrument(baseFreq/2, 'bass', 8, now, 0.5); playInstrument(baseFreq, 'pad', 8, now, 0.2); musicState.sequencer = setTimeout(startSequencer, 7000); }
+        function updateMusicVolume(vol) { 
+            if (musicState.audioElement) {
+                musicState.audioElement.volume = vol / 100;
+            }
+            const volBar = document.getElementById('music-vol-bar'); 
+            if (volBar) volBar.style.width = `${vol}%`; 
+            document.getElementById('music-vol-text').textContent = vol; 
         }
-
-        function stopMusic() { musicState.isPlaying = false; if (musicState.sequencer) clearTimeout(musicState.sequencer); if (musicState.ctx) musicState.ctx.suspend(); document.getElementById('music-playing-indicator')?.classList.add('hidden'); }
-        function playMusic() { initMusicAudio(); musicState.isPlaying = true; startSequencer(); document.getElementById('music-playing-indicator')?.classList.remove('hidden'); }
-
-        function updateMusicVolume(vol) { if (musicState.masterGain && musicState.ctx) musicState.masterGain.gain.setValueAtTime(vol / 100, musicState.ctx.currentTime); const volBar = document.getElementById('music-vol-bar'); if (volBar) volBar.style.width = `${vol}%`; document.getElementById('music-vol-text').textContent = vol; }
 
         function changeMusicChannel(dir) {
             const idx = musicChannels.findIndex(c => c.id === musicState.currentChannel.id);
@@ -500,8 +500,10 @@
             const ch = musicState.currentChannel;
             document.getElementById('music-bg-img').src = ch.imageUrl;
             document.getElementById('music-album-art').src = ch.imageUrl;
-            document.getElementById('music-title').textContent = ch.title;
-            document.getElementById('music-artist').textContent = ch.artist;
+            
+            const fullImg = document.getElementById('music-bg-img-full');
+            if (fullImg) fullImg.src = ch.imageUrl;
+            
             const listEl = document.getElementById('music-channel-list'); listEl.innerHTML = '';
             musicChannels.forEach(c => {
                 const el = document.createElement('div');
@@ -510,6 +512,8 @@
                 el.onclick = (e) => { e.stopPropagation(); stopMusic(); musicState.currentChannel = c; renderMusicApp(); setTimeout(playMusic, 200); };
                 listEl.appendChild(el);
             });
+            
+            updateDisplay();
         }
 
         // --- Video Core Logic ---
@@ -565,7 +569,9 @@
             tvVideo.classList.toggle('hidden', !showMedia || isEmbed);
             tvIframe.classList.toggle('hidden', !showMedia || !isEmbed);
             
-            document.getElementById('tv-ui-overlay').classList.toggle('hidden', !state.isPowerOn || state.isStandbyMode || state.isMusicMode);
+            const isOsdHidden = !state.isPowerOn || state.isStandbyMode || (state.isMusicMode && !showOSD);
+            document.getElementById('tv-ui-overlay').classList.toggle('hidden', isOsdHidden);
+            
             document.getElementById('standby-overlay').classList.toggle('hidden', !state.isStandbyMode);
             document.getElementById('home-iot-overlay').classList.toggle('hidden', !state.isHomeMode);
             
@@ -578,38 +584,51 @@
             
             document.getElementById('gemini-recommendation-tray').classList.toggle('hidden', !state.isGeminiTrayOpen);
             document.getElementById('music-app-overlay').classList.toggle('hidden', !state.isMusicMode);
-            if (state.isMusicMode) { document.getElementById('music-app-overlay').classList.add('active'); document.getElementById('music-bg-effect').classList.remove('hidden'); }
-            else { document.getElementById('music-app-overlay').classList.remove('active'); document.getElementById('music-bg-effect').classList.add('hidden'); }
+            
+            if (state.isMusicMode) { 
+                document.getElementById('music-app-overlay').classList.add('active'); 
+                const bgEff = document.getElementById('music-bg-effect');
+                bgEff.classList.remove('hidden');
+                const fullImg = document.getElementById('music-bg-img-full');
+                
+                if (fullImg.src !== musicState.currentChannel.imageUrl) {
+                    fullImg.src = musicState.currentChannel.imageUrl;
+                }
+                fullImg.style.opacity = "0.5";
+                fullImg.style.filter = "none"; 
+            } else { 
+                document.getElementById('music-app-overlay').classList.remove('active'); 
+                document.getElementById('music-bg-effect').classList.add('hidden'); 
+            }
             
             document.getElementById('osd-channel-num').textContent = state.currentChannel;
             document.getElementById('osd-channel-name').textContent = currentData?.title || "Channel";
-            document.getElementById('osd-volume-text').textContent = state.isMuted ? "MUTE" : state.currentVolume;
             
-            if (showOSD && !state.isMusicMode && !state.isStandbyMode) {
+            const displayVol = state.isMusicMode ? musicState.volume : state.currentVolume;
+            document.getElementById('osd-volume-text').textContent = state.isMuted ? "MUTE" : displayVol;
+            
+            if (showOSD && !state.isStandbyMode) {
                 if (type === "vol") document.getElementById('osd-volume-bar').style.opacity = '1'; else document.getElementById('osd-channel-bar').style.opacity = '1';
                 uiTimeout = setTimeout(() => { document.getElementById('osd-channel-bar').style.opacity = '0'; document.getElementById('osd-volume-bar').style.opacity = '0'; }, 3000);
             }
         }
 
         // --- Interaction Handlers ---
-        function togglePower() {
-            initMusicAudio();
+        async function togglePower() {
             state.isPowerOn = !state.isPowerOn;
             if (state.isPowerOn) { state.currentChannel = state.lastChannel; state.currentVolume = state.lastVolume; updateVideo(); }
             else { 
                 state.lastChannel = state.currentChannel; state.lastVolume = state.currentVolume; 
                 state.isMusicMode = false; state.isStandbyMode = false; state.isHomeMode = false; state.isGeminiTrayOpen = false; 
-                stopMusic(); 
-                if (playPromise) { playPromise.then(() => tvVideo.pause()).catch(() => {}); } else { tvVideo.pause(); }
+                await stopMusic(); 
+                if (playPromise) { try { await playPromise; tvVideo.pause(); } catch(e) {} } else { tvVideo.pause(); }
                 tvVideo.src = ""; tvIframe.src = ""; 
             }
             updateDisplay(true);
         }
 
-        // --- Fix: toggleStandby definition restored ---
         function toggleStandby() {
             if (!state.isPowerOn) return;
-            if (clickSynth) clickSynth.triggerAttackRelease("C1", "8n");
             if (state.isStandbyMode) {
                 state.isStandbyMode = false;
                 if (clockInterval) clearInterval(clockInterval);
@@ -703,7 +722,16 @@
         document.getElementById('ch-down').onclick = () => { if(!state.isPowerOn) return; if(state.isMusicMode) changeMusicChannel('prev'); else { state.currentChannel--; updateVideo(); updateDisplay(true, "ch"); } };
         document.getElementById('vol-up').onclick = () => { if(!state.isPowerOn) return; if(state.isMusicMode) { musicState.volume = Math.min(100, musicState.volume + 10); updateMusicVolume(musicState.volume); } else { state.currentVolume = Math.min(100, state.currentVolume + 10); updateVideo(); } updateDisplay(true, "vol"); };
         document.getElementById('vol-down').onclick = () => { if(!state.isPowerOn) return; if(state.isMusicMode) { musicState.volume = Math.max(0, musicState.volume - 10); updateMusicVolume(musicState.volume); } else { state.currentVolume = Math.max(0, state.currentVolume - 10); updateVideo(); } updateDisplay(true, "vol"); };
-        document.getElementById('mute-button').onclick = () => { if(state.isPowerOn) { state.isMuted = !state.isMuted; if(tvVideo) tvVideo.muted = state.isMuted; updateDisplay(true, "vol"); } };
+        
+        document.getElementById('mute-button').onclick = () => { 
+            if(state.isPowerOn) { 
+                state.isMuted = !state.isMuted; 
+                if(tvVideo) tvVideo.muted = state.isMuted; 
+                if(musicState.audioElement) musicState.audioElement.muted = state.isMuted; 
+                updateDisplay(true, "vol"); 
+            } 
+        };
+        
         document.getElementById('d-pad-ok').onclick = () => masterDpad('ok');
         document.getElementById('d-pad-up').onclick = () => masterDpad('up');
         document.getElementById('d-pad-down').onclick = () => masterDpad('down');
